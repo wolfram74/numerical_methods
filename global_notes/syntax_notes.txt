@@ -1,0 +1,8 @@
+'implicit none'
+  code block must define type of a variable before it is assigned a value
+
+'gfortran -o file.out file.f90'
+  compiles file.f90 source code into
+'./file.out'
+  runs produced program
+

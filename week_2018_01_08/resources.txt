@@ -1,4 +1,6 @@
 possible tutorial
-https://www.fortrantutorial.com/basics/index.php
+  https://www.fortrantutorial.com/basics/index.php
 compiler gfortran notes
-https://gcc.gnu.org/wiki/GFortranUsage
+  https://gcc.gnu.org/wiki/GFortranUsage
+UU center for high performance computing
+  https://www.chpc.utah.edu/

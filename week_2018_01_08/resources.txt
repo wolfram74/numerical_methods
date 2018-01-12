@@ -1,0 +1,4 @@
+possible tutorial
+https://www.fortrantutorial.com/basics/index.php
+compiler gfortran notes
+https://gcc.gnu.org/wiki/GFortranUsage

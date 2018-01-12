@@ -1,0 +1,55 @@
+2018_01_10
+  Dr. Ludger Scherliess
+  Ludger.Scherliess@usu.edu
+  SER 316
+  797-7189
+  objectives:
+    understand and implement some important numerical methods used in computational physics
+    gain confidence solving problems with numerical methods using fortran 90
+  lectures:
+    class will meet W/F in ser 122 at 9AM-10:15AM
+  office hours:
+    by appointment
+
+  ? what methods exist for determining if a physics problem has an analytic solution before we've found said solution?
+  taking advantage of generated errors to improve solution
+  numerical solutions almost intrinsically approximate
+  ---
+  homework:
+    5-6 assginments due at specific dates, score is proportional to effort
+    peer reviewing process to expand perception and
+    review workshop tentatively for monday following
+  quizzes:
+    2-3 short quizzes throughout semester primarily multiple-choice
+  midterm exam:
+    one hour 'late' midterm featuring:
+      page of useful formulas
+      numerical values of constants
+  final project:
+    self descriptive, is a group project?
+    includes presentation of project during finals week
+  final grade:
+    40% homework
+    30% late midterm
+    20% final project
+    10% quizzes
+  ---
+  grade shenanigans
+  ---
+  1: introduction
+    accuracy in computing
+    f90
+    local interpolation and splines
+    definte integrals, trapezoidal rule, romberg integration and adaptive
+      talking about how errors in interpolation lead to errors in integration
+  2: ODEs
+    linear and nonlinear ODes
+    initial value problems: RK and adaptive methods
+    boundary value problems: shooting and finite difference methods
+  3: PDEs
+    parabolic (diffusion), elliptic (Poisson), hyperbolic (wave+advection)
+    finite difference and finite element spatial discretization
+    explicit, semi-implicit and implicit time-stepping schemes
+    stability analysis
+  ---
+  texts, a bunch of stuff

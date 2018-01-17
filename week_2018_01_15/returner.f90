@@ -1,13 +1,17 @@
 program collatz
   implicit none
-  call fork(4)
-  call fork(5)
+  character(len=10) :: fork
+  print *, fork(4)
+  print *, fork(5)
 end program collatz
 
-subroutine fork(int)
+function fork(int)
+  implicit none
+  integer :: int
+  character(len=10) :: fork
   if(modulo(int, 2)==0) then
-    print *, 'shrink'
+    fork = 'shrink'
   else
-    print *, 'grow'
+    fork = 'grow'
   end if
-end subroutine
+end function

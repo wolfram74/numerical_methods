@@ -4,3 +4,6 @@ compiler gfortran notes
   https://gcc.gnu.org/wiki/GFortranUsage
 UU center for high performance computing
   https://www.chpc.utah.edu/
+distinguishing between subroutines and functions
+  https://en.wikibooks.org/wiki/Fortran/Fortran_procedures_and_functions
+  immediate impulse is to only use functions

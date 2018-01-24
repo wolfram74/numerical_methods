@@ -12,3 +12,6 @@ if (boolean) then
   code-block
 end if
 '''
+
+wiki references on real precision
+http://fortranwiki.org/fortran/show/Real+precision

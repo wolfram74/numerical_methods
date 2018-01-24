@@ -6,3 +6,9 @@
 './file.out'
   runs produced program
 
+conditional block
+'''
+if (boolean) then
+  code-block
+end if
+'''

@@ -1,0 +1,12 @@
+02018/01/24
+  talking about writing fortran code
+  rather poor suggestions
+  variable names:
+    start with characters
+    char, digits and _ only, probably use snake case
+
+  experimental notes:
+    no out of index warnings if you try to assign out of bounds on arrays?
+    correction:
+      segmentation fault occured when tried to assign to 13th place on a len-10 array
+

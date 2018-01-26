@@ -13,5 +13,31 @@ if (boolean) then
 end if
 '''
 
+serial-conditional block
+'''
+if (boolean) then
+  code-block
+else if (boolean) then
+  code-block
+else (boolean) then
+  code-block
+end if
+'''
+
+comparators
+'''
+/= ! not equals
+.and. ! logical and
+.or. ! logical or
+'''
+
+data inspection
+'''
+kind(z) !returns bit size of variable
+'''
+
 wiki references on real precision
 http://fortranwiki.org/fortran/show/Real+precision
+
+documentation on setting real-precision
+  https://gcc.gnu.org/onlinedocs/gfortran/SELECTED_005fREAL_005fKIND.html

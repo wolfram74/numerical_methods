@@ -36,6 +36,22 @@ data inspection
 kind(z) !returns bit size of variable
 '''
 
+define data structure
+'''
+type type_name
+  specify variables from existing types
+end type type_name
+'''
+
+invoke data structure
+'''
+type(type_name) :: var_name
+var_name%sub_var1 = data1
+...
+var_name%sub_varn = datan
+'''
+
+
 wiki references on real precision
 http://fortranwiki.org/fortran/show/Real+precision
 

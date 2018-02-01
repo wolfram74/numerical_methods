@@ -1,0 +1,4 @@
+wednesday
+  example of poor communication between collaborators leading to type incompatibilities
+  brief discussion on arrays
+

@@ -51,6 +51,13 @@ var_name%sub_var1 = data1
 var_name%sub_varn = datan
 '''
 
+array declaration
+'''
+  real, dimension(n,m) :: arr1
+  real :: arr2(j,k)
+'''
+arr1 and arr2 are 2-D arrays of with n,j rows and m,k columns respectively
+if n were 1 then you'd have a row vector, if m were 1 you'd have a column vector
 
 wiki references on real precision
 http://fortranwiki.org/fortran/show/Real+precision

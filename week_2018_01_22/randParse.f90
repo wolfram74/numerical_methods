@@ -6,10 +6,14 @@ program randparse
   real(kind=8) :: sample
 
   !initializing random generator
+  !figure out length of seed array size
   call random_seed(size=seed_size)
   do lap=1,seed_size
     new_seed(lap)=time()
   end do
+  !put accepts array of pre-defined length consisting of pre-defined data type
+  !can not be changed?
+  !question: how to find out length and data type and make array without use of magic numbers on line 3
   call random_seed(put=new_seed)
 
 

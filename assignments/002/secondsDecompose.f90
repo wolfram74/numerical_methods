@@ -8,8 +8,9 @@ program seconds_decompose
       print *, all([0,0,4] ==seconds_to_hms(4))
       print *, all([1,2,4] ==seconds_to_hms(1*3600 + 2*60 + 4))
     end subroutine
+
     function seconds_to_hms(seconds) result(hours_mins_secs)
-      integer, dimension(3) :: hours_mins_secs
+      integer :: hours_mins_secs(3)
       integer :: secs_per_hour=3600, secs_per_minute=60, remaining_secs
       integer, intent(in) :: seconds
 

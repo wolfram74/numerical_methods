@@ -14,7 +14,8 @@ program float_to_bin
   contains
     function bin_generator(float_in) result(bin_vals)
       real, intent(in) :: float_in
-      character(16), dimension(2) :: bin_vals
+      ! character(16), dimension(2) :: bin_vals
+      character(16) :: bin_vals(2)
 
     end function
 
@@ -24,10 +25,22 @@ program float_to_bin
 
     end function
 
+    function int_portion(int_float) result(int_bin)
+      real, intent(in) :: int_float
+      character(16) :: int_bin
+    end function
+
+    function frac_portion(frac_float) result(frac_bin)
+      real, intent(in) :: frac_float
+      character(16) :: frac_bin
+    end function
+
     subroutine testing()
       print *, all([40., .25] == float_splitter(40.25))
       print *, all(&
         ['0000000000001001', '1010000000000000']==&
         bin_generator(( 8.+1.+.5 + 2.**(-3) )))
+      print *, '0000000000010010' == int_portion(16.+2.)
+      print *, '0010100000000000' == frac_portion(2.**(-3)+2.**(-5))
     end subroutine
 end program

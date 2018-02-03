@@ -22,16 +22,16 @@ program float_to_bin
     function int_portion(int_float) result(int_bin)
       real, intent(in) :: int_float
       character(16) :: int_bin
-      integer :: current_val, pow
+      integer :: current_val, pow, index
       current_val = int(int_float)
-      int_bin = '1234123412341234'
-      ! print *, '1234123412341234'
-      print *, int_bin
       do pow=0,15
+        index = 16-pow
         if(mod(current_val, 2)==1) then
-          ! int_bin((16-pow)) = '1'
+          int_bin(index:index) = '1'
+        else
+          int_bin(index:index) = '0'
         end if
-
+        current_val = current_val/2
       end do
     end function
 

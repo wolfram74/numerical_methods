@@ -25,7 +25,7 @@ program float_to_bin
       integer :: current_val, pow
       current_val = int(int_float)
       int_bin = '1234123412341234'
-      ! print *, '1234123412341234'
+      print *, '1234123412341234'
       ! print *, int_bin
       ! do pow=0,15
       !   if(mod(current_val, 2)==1) then

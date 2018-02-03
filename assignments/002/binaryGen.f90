@@ -27,12 +27,12 @@ program float_to_bin
       int_bin = '1234123412341234'
       ! print *, '1234123412341234'
       print *, int_bin
-      ! do pow=0,15
-      !   if(mod(current_val, 2)==1) then
-      !     ! int_bin((16-pow)) = '1'
-      !   end if
+      do pow=0,15
+        if(mod(current_val, 2)==1) then
+          ! int_bin((16-pow)) = '1'
+        end if
 
-      ! end do
+      end do
     end function
 
     function frac_portion(frac_float) result(frac_bin)

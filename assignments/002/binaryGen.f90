@@ -38,6 +38,19 @@ program float_to_bin
     function frac_portion(frac_float) result(frac_bin)
       real, intent(in) :: frac_float
       character(16) :: frac_bin
+      real :: current_val
+      integer :: pow, index
+      current_val = frac_float
+      do pow=0,15
+        index = pow+1
+        current_val = current_val*2.
+        if(current_val >= 1.) then
+          frac_bin(index:index) = '1'
+          current_val = current_val - 1.
+        else
+          frac_bin(index:index) = '0'
+        end if
+      end do
     end function
 
     subroutine testing()

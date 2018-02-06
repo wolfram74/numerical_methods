@@ -2,7 +2,8 @@ program float_to_bin
   ! assumes a floating point
   ! greater than 0 less than 2**16
   implicit none
-  call testing
+  ! call testing
+  call user_input
   stop
   contains
     function bin_generator(float_in) result(bin_vals)
@@ -62,9 +63,6 @@ program float_to_bin
       real :: test1(2)
       character(16) :: test2(2), test3, test4
       test1 = float_splitter(40.25)
-      ! print *, all([40., .25] == test1 )
-      ! print *, sum([40., .25] - test1 ) !< 10**(-4)
-      ! print *, sum([40., .25] - test1 ) , 10.**(-4)
       print *, sum([40., .25] - test1 ) <= 10.**(-4)
       test2 = bin_generator(( 8.+1.+.5 + 2.**(-3) ))
       print *, all(&
@@ -74,5 +72,15 @@ program float_to_bin
       print *, '0000000000010010' == test3
       test4 = frac_portion(2.**(-3)+2.**(-5))
       print *, '0010100000000000' == test4
+    end subroutine
+    subroutine user_input()
+      real :: user_val
+      character(16) :: bin_vals(2)
+      print *, 'input a number greater than 0 less than 65536'
+      read *, user_val
+      bin_vals = bin_generator(user_val)
+      print *, 'the integer portion was ', bin_vals(1)
+      print *, 'and the decimal portion was ', bin_vals(2)
+
     end subroutine
 end program

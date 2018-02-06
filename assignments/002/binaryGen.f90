@@ -62,7 +62,8 @@ program float_to_bin
       real :: test1(2)
       character(16) :: test2(2), test3, test4
       test1 = float_splitter(40.25)
-      print *, all([40., .25] == test1 )
+      ! print *, all([40., .25] == test1 )
+      print *, sum([40., .25] - test1 ) < 10**(-4)
       test2 = bin_generator(( 8.+1.+.5 + 2.**(-3) ))
       print *, all(&
         ['0000000000001001', '1010000000000000']==test2 &

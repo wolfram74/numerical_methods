@@ -9,6 +9,11 @@ program float_to_bin
       real, intent(in) :: float_in
       ! character(16), dimension(2) :: bin_vals
       character(16) :: bin_vals(2)
+      real :: sub_floats(2)
+
+      sub_floats = float_splitter(float_in)
+      bin_vals(1) = int_portion(sub_floats(1))
+      bin_vals(2) = frac_portion(sub_floats(2))
 
     end function
 

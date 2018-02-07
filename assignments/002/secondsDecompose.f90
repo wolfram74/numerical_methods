@@ -1,7 +1,8 @@
 program seconds_decompose
   implicit none
   print *, 'working'
-  call testing
+  ! call testing
+  call user_input
   stop
   contains
     subroutine testing()
@@ -20,5 +21,16 @@ program seconds_decompose
       remaining_secs = remaining_secs - hours_mins_secs(2)*secs_per_minute
       hours_mins_secs(3) = remaining_secs
      end function
+
+     subroutine user_input()
+        integer :: seconds
+        integer :: components(3)
+        print *, 'input a seconds in integers'
+        read *, seconds
+        components = seconds_to_hms(seconds)
+        print *, 'hours :', components(1)
+        print *, 'minutes :', components(2)
+        print *, 'seconds :', components(3)
+     end subroutine
 end program seconds_decompose
 

@@ -1,3 +1,6 @@
+!Peter Haugen
+!problem set 2
+!problem 2
 program float_to_bin
   ! assumes a floating point
   ! greater than 0 less than 2**16

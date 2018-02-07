@@ -1,3 +1,6 @@
+!Peter Haugen
+!problem set 2
+!problem 1
 program seconds_decompose
   implicit none
   print *, 'working'

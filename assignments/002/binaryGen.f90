@@ -11,7 +11,6 @@ program float_to_bin
   contains
     function bin_generator(float_in) result(bin_vals)
       real, intent(in) :: float_in
-      ! character(16), dimension(2) :: bin_vals
       character(16) :: bin_vals(2)
       real :: sub_floats(2)
 

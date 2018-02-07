@@ -1,0 +1,9 @@
+part B
+ ! FloatingPoint Model Parameters:                         !
+ ! Kind   Precision       Range          Name              !
+ !    4           6          37          Single            !
+ !    8          15         307          Double            !
+ !   10          18        4931          Extnd1            !
+ !   16          33        4931          Extnd2            !
+Part A and C
+The behavior of the error behaves exactly the same regardless of resolution provided, the only distinction is the initial conditions permits the error to start much smaller at higher resolution resulting in a wide scale divergence taking longer to notice.

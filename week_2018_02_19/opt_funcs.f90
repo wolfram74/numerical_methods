@@ -6,7 +6,23 @@ program opt_funcs
   placeholder = shouter_need_opto(4, 2)
   placeholder = shouter_and_opts(4)
   placeholder = shouter_and_opts(4,2)
+  placeholder = shout_with_keys(4)
+  placeholder = shout_with_keys(4, opto_in=2)
   contains
+
+  function shout_with_keys(mando, opto_in) result(output)
+    integer, intent(in) :: mando
+    integer, optional :: opto_in
+    integer :: opto
+    integer :: output
+    if (present(opto_in)) then
+      opto = opto_in
+    else
+      opto = 6
+    end if
+    output=4
+    print *, 'in shout', mando, opto
+  end function shout_with_keys
 
   function shouter(mando) result(output)
     integer, intent(in) :: mando

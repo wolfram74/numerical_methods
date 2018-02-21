@@ -3,9 +3,25 @@ program opt_funcs
   integer :: placeholder
   print *, 'shout'
   placeholder = shouter(4)
-  placeholder = shouter(4, 2)
+  placeholder = shouter_need_opto(4, 2)
+  placeholder = shouter_and_opts(4)
+  placeholder = shouter_and_opts(4,2)
   contains
-  function shouter(mando, opto) result(output)
+
+  function shouter(mando) result(output)
+    integer, intent(in) :: mando
+    integer :: output
+    output = shouter_need_opto(mando, 6)
+  end function shouter
+
+  function shouter_need_opto(mando, opto) result(output)
+    integer, intent(in) :: mando, opto
+    integer :: output
+    output=4
+    print *, 'in shout', mando, opto
+  end function shouter_need_opto
+
+  function shouter_and_opts(mando, opto) result(output)
     integer, intent(in) :: mando
     integer, optional :: opto
     integer :: opto_used
@@ -17,5 +33,6 @@ program opt_funcs
     end if
     output=4
     print *, 'in shout', mando, opto_used
-  end function shouter
+  end function shouter_and_opts
+
 end program opt_funcs

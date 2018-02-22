@@ -22,14 +22,18 @@ module kaczmarz
     scalar = scalar/ (magnitude(vec1)+magnitude(vec2))
   end function delta_relative_magnitude
 
-  function kaczmarz_algo(eqn_mat, b_vec) result(guess)
+  function kaczmarz_algo(eqn_mat, b_vec, max_loops_in, precision_in) result(guess)
   ! find guess such that eqn_man*guess - b_vec is close to 0
     real(kind=dp), dimension(:, :), intent(in) :: eqn_mat
     real(kind=dp), dimension(:), intent(in) :: b_vec
-    integer :: max_loops
     real(kind=dp), allocatable :: guess(:)
-    allocate(guess(4))
-    print *, shape(eqn_mat)
+    real(kind=dp), optional :: precision_in
+    integer, optional :: max_loops_in
+    real(kind=dp) :: precision
+    integer :: max_loops
+    allocate(guess(shape(eqn_mat)(2)))
+
+    print *, shape(eqn_mat)(2)
   ! http://www.personal.psu.edu/jhm/f90/intrinsics/matmul.html
     max_loops = 30
     guess = 0

@@ -48,10 +48,7 @@ module kaczmarz
     else
       precision = 10.0_dp**(-6.0_dp)
     end if
-
-  ! http://www.personal.psu.edu/jhm/f90/intrinsics/matmul.html
     guess = 0
-
 
     do loop_count=1,max_loops
       curr_row_index = modulo(loop_count, num_of_rows)+1
@@ -59,6 +56,9 @@ module kaczmarz
       guess = guess + curr_row*(&
         b_vec(curr_row_index) -dot(curr_row, guess)&
         )/(magnitude(curr_row)**2.0_dp)
+      if (delta_relative_magnitude(&
+          b_vec, matmul(eqn_mat, guess)&
+        ) < precision ) exit
     end do
 
   end function kaczmarz_algo

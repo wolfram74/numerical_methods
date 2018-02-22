@@ -19,8 +19,11 @@ program test_kaczmarz
   !   [1.0_dp,1.0_dp,0.0_dp],&
   !   [0.0_dp,1.0_dp,1.0_dp] ] ! how it ought to be
   eq_mat4 = reshape(&
-    [1.0_dp,1.0_dp,0.0_dp,&
-    0.0_dp,1.0_dp,1.0_dp],&
+    [&
+    1.0_dp,0.0_dp,&
+    1.0_dp,1.0_dp,&
+    0.0_dp,1.0_dp &
+    ],&
     [2,3]) ! appropriate adjective unbecoming of an academic setting
   constraints4 = [2.0_dp, 37.0_dp]
   test4 = kaczmarz_algo(eq_mat4, constraints4)

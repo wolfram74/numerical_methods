@@ -27,16 +27,35 @@ module kaczmarz
     real(kind=dp), dimension(:, :), intent(in) :: eqn_mat
     real(kind=dp), dimension(:), intent(in) :: b_vec
     real(kind=dp), allocatable :: guess(:)
+
     real(kind=dp), optional :: precision_in
     integer, optional :: max_loops_in
     real(kind=dp) :: precision
     integer :: max_loops
-    allocate(guess(shape(eqn_mat)(2)))
 
-    print *, shape(eqn_mat)(2)
+    integer :: loop_count
+    integer :: curr_row_index
+    allocate(guess(size(eqn_mat,2)))
+
+    if (present(max_loops_in)) then
+      max_loops = max_loops_in
+    else
+      max_loops = 100
+    end if
+    if (present(precision_in)) then
+      precision = precision_in
+    else
+      precision = 10.0_dp**(-6.0_dp)
+    end if
+
+    ! print *, size(eqn_mat,2)
+    ! print *, eqn_mat(1, :)
   ! http://www.personal.psu.edu/jhm/f90/intrinsics/matmul.html
-    max_loops = 30
     guess = 0
+    do loop_count=1,max_loops
+      guess = loop_count
+    end do
+
   end function kaczmarz_algo
 
 end module kaczmarz

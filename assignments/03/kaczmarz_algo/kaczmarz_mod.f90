@@ -26,16 +26,17 @@ module kaczmarz
   ! find guess such that eqn_man*guess - b_vec is close to 0
     real(kind=dp), dimension(:, :), intent(in) :: eqn_mat
     real(kind=dp), dimension(:), intent(in) :: b_vec
-    real(kind=dp), allocatable :: guess(:)
+    real(kind=dp), allocatable :: guess(:), curr_row(:)
 
     real(kind=dp), optional :: precision_in
     integer, optional :: max_loops_in
     real(kind=dp) :: precision
     integer :: max_loops
 
-    integer :: loop_count
-    integer :: curr_row_index
+    integer :: loop_count, num_of_rows, curr_row_index
     allocate(guess(size(eqn_mat,2)))
+    allocate(curr_row(size(eqn_mat,2)))
+    num_of_rows = size(eqn_mat, 1)
 
     if (present(max_loops_in)) then
       max_loops = max_loops_in
@@ -48,12 +49,16 @@ module kaczmarz
       precision = 10.0_dp**(-6.0_dp)
     end if
 
-    ! print *, size(eqn_mat,2)
-    ! print *, eqn_mat(1, :)
   ! http://www.personal.psu.edu/jhm/f90/intrinsics/matmul.html
     guess = 0
+
+
     do loop_count=1,max_loops
-      guess = loop_count
+      curr_row_index = modulo(loop_count, num_of_rows)+1
+      curr_row = eqn_mat(curr_row_index, :)
+      guess = guess + curr_row*(&
+        b_vec(curr_row_index) -dot(curr_row, guess)&
+        )/(magnitude(curr_row)**2.0_dp)
     end do
 
   end function kaczmarz_algo

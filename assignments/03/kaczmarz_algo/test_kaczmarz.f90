@@ -3,6 +3,9 @@ program test_kaczmarz
   implicit none
   ! integer, parameter :: dp =selected_real_kind(15,307)
   real(kind=dp) :: epsi ,test1, test2, test3
+  real(kind=dp) :: test4(3)
+  real(kind=dp) :: eq_mat4(2,3)
+  real(kind=dp) :: constraints4(2)
   epsi =(10_dp**(-8._dp))
   test1 = dot([2._dp, 2._dp, 2._dp], [1._dp, 2._dp, 3._dp])
   print *, abs(test1-12_dp) < epsi
@@ -12,5 +15,10 @@ program test_kaczmarz
     [1000._dp, 1000._dp, 1000._dp], &
     [1001._dp, 1000._dp, 1000._dp] )
   print *, abs(test3) < .01
-
+  eq_mat4 = [&
+    [1.0_dp,1.0_dp,0.0_dp],&
+    [0.0_dp,1.0_dp,1.0_dp] ]
+  constraints4 = [2.0_dp, 37.0_dp]
+  test4 = kaczmarz_algo(eq_mat4, constraints4)
+  print *, (delta_relative_magnitude(matmul(eq_mat4, test4), constraints4)) < 0.0001
 end program test_kaczmarz

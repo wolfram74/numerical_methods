@@ -18,6 +18,8 @@ program use_kaczmarz
     ],&
      [8,9])
   constraints = [6.0_dp,12.0_dp,15.0_dp,15.0_dp,15.0_dp,18.0_dp,15.0_dp,24.0_dp]
+  guess = 1.0
+  print *,  guess
   guess = kaczmarz_algo(eq_mat, constraints)
   call tensor_r2_print(eq_mat)
   print *, 'with default processing of 100 loops'

@@ -2,4 +2,6 @@
 *.o
 *.fin
 *.mod
+*.pdf
+*.pptx
 *.ken

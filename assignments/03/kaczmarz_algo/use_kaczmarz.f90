@@ -31,10 +31,6 @@ program use_kaczmarz
   print *, 'with higher loop cap and higher precision'
   print *,  guess
   print *, 'deviation', delta_relative_magnitude(constraints, matmul(eq_mat, guess))
-  guess = kaczmarz_algo(eq_mat, constraints, precision_in=(10.0_dp**(-17.0_dp)), max_loops_in=100000)
-  print *, 'with higher loop cap and higher precision'
-  print *,  guess
-  print *, 'deviation', delta_relative_magnitude(constraints, matmul(eq_mat, guess))
   ! call performance_trend()
   contains
   subroutine tensor_r2_print(tensor)

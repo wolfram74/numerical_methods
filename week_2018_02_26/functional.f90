@@ -1,14 +1,16 @@
 program function_passing
   implicit none
   integer, parameter :: dp =selected_real_kind(15,307)
+
   write(*,*) basic_deriv(constant_f, 1.0_dp)
   write(*,*) basic_deriv(linear_f, 1.0_dp)
   write(*,*) basic_deriv(quadra_f, 1.0_dp)
+
   contains
 
   function basic_deriv(func, query, step_in) result(dfunc)
-    real(kind=dp) :: func
-    ! real(kind=dp), intent(in) :: func !declaring intent breaks?
+    ! real(kind=dp) :: func
+    real(kind=dp), intent(in) :: func !declaring intent breaks?
     real(kind=dp), intent(in) :: query
     real(kind=dp), optional :: step_in
     real(kind=dp) :: dfunc, step
@@ -19,7 +21,9 @@ program function_passing
       step = 10.0_dp**(-3.0_dp)
     end if
 
-    dfunc = (func(query+step/2.0)-func(query-step/2.0))/step
+    dfunc = (&
+      func(query+step/2.0)-func(query-step/2.0)&
+      )/step
   end function basic_deriv
 
   function constant_f(x) result(y)
@@ -28,6 +32,7 @@ program function_passing
     y = x
     y = 2.0_dp
   end function constant_f
+
   function linear_f(x) result(y)
     real(kind=dp), intent(in) :: x
     real(kind=dp) :: y

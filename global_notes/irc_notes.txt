@@ -2,3 +2,5 @@ intentionally learn f2003
 look into compiler flags
   -Wall
   -Wextra
+
+keyword procedure is set of function and subroutine

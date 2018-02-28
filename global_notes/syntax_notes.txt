@@ -56,6 +56,11 @@ array declaration
   real, dimension(n,m) :: arr1
   real :: arr2(j,k)
 '''
+
+input intent declaration, for immutable variables
+'''
+  intent(in) :: input_var
+'''
 arr1 and arr2 are 2-D arrays of with n,j rows and m,k columns respectively
 if n were 1 then you'd have a row vector, if m were 1 you'd have a column vector
 

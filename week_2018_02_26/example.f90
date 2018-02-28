@@ -15,38 +15,13 @@
 ! I would appreciate any comments, feedback, criticism, mistakes, errors etc.,
 !   (however minor they are)
 !
-module dummy
-  implicit none
-contains
-!------------------------------------------------------------------------------
-function func1(a)
-  implicit none
-  real :: a
-  real :: func1
+! module dummy
+!   implicit none
 
-  func1 = a+5
-end function func1
-!------------------------------------------------------------------------------
-function func2(b)
-  implicit none
-  real :: b
-  real :: func2
-
-  func2 = b*3.0
-end function func2
-!------------------------------------------------------------------------------
-function func3(dyn_func, c)
-  implicit none
-  real :: c
-  real, external :: dyn_func
-  real :: func3
-
-  func3 = dyn_func(c)
-end function func3
-end module dummy
+! end module dummy
 !------------------------------------------------------------------------------
 program passing_functions
-  use dummy
+  ! use dummy
   implicit none
 
   real :: alpha=0.5, beta
@@ -55,4 +30,30 @@ program passing_functions
   write(*,*) 'beta = ', beta
   beta = func3(func2, alpha)
   write(*,*) 'beta = ', beta
+  contains
+  !------------------------------------------------------------------------------
+  function func1(a)
+    implicit none
+    real :: a
+    real :: func1
+
+    func1 = a+5
+  end function func1
+  !------------------------------------------------------------------------------
+  function func2(b)
+    implicit none
+    real :: b
+    real :: func2
+
+    func2 = b*3.0
+  end function func2
+  !------------------------------------------------------------------------------
+  function func3(dyn_func, c)
+    implicit none
+    real :: c
+    real, external :: dyn_func
+    real :: func3
+
+    func3 = dyn_func(c)
+  end function func3
 end program passing_functions

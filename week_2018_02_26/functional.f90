@@ -9,8 +9,8 @@ program function_passing
   contains
 
   function basic_deriv(func, query, step_in) result(dfunc)
-    ! real(kind=dp) :: func
-    real(kind=dp), intent(in) :: func !declaring intent breaks?
+    real(kind=dp) :: func
+    ! real(kind=dp), intent(in) :: func !declaring intent breaks?
     real(kind=dp), intent(in) :: query
     real(kind=dp), optional :: step_in
     real(kind=dp) :: dfunc, step

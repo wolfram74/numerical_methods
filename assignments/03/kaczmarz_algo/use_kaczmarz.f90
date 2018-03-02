@@ -33,7 +33,7 @@ program use_kaczmarz
   print *, 'with higher loop cap and higher precision'
   print *,  guess
   print *, 'deviation', delta_relative_magnitude(constraints, matmul(eq_mat, guess))
-  ! call performance_trend()
+  call performance_trend()
   contains
   subroutine tensor_r2_print(tensor)
     real(kind=dp) :: tensor(:, :)

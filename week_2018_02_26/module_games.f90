@@ -4,6 +4,12 @@ module mod_a
   type body
     real(kind=dp) :: mass, vel(3), pos(3)
   end type body
+  contains
+
+  function shout() result(output)
+    character(len=20) :: output
+    output='loud noises!'
+  end function shout
 end module mod_a
 
 module mod_b
@@ -13,7 +19,7 @@ end module mod_b
 
 program main
   ! use mod_a
-  use mod_b
+  use mod_b, only:test2, body
   implicit none
   type(body) :: earth
   earth%mass = 4.0
@@ -23,5 +29,8 @@ program main
   print *, earth%mass
   print *, earth%pos
   print *, earth%vel
-  ! print *, test1, test2
+  ! print *, shout()
+  ! print *, test1
+  ! print *, dp
+  print *, test2
 end program main

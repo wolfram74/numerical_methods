@@ -3,9 +3,16 @@ module mod_a
   integer :: test1 = 5
   type body
     real(kind=dp) :: mass, vel(3), pos(3)
+    contains
+      procedure :: momentum
   end type body
   contains
 
+  function momentum(this) result(momentum_val)
+    class(body) :: this
+    real(kind=dp) :: momentum_val(3)
+    momentum_val = this%mass*this%vel
+  end function momentum
   function shout() result(output)
     character(len=20) :: output
     output='loud noises!'

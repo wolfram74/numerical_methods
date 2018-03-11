@@ -1,0 +1,10 @@
+main program starts on line 40
+opens input file and output file
+sets x and y values on loop 42-44
+calls 2nd derivative function on line 54 interface defined 14-21
+  actual 2nd derivative defined 73-113
+  cubic spline defined 116-134
+  bisect search is 137-173
+  thomas algorithm is mostly implementing this
+  https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm
+  the end goal is to calculate dy2

@@ -36,6 +36,7 @@ program main
   print *, earth%mass
   print *, earth%pos
   print *, earth%vel
+  print *, earth%momentum()
   ! print *, shout()
   ! print *, test1
   ! print *, dp

@@ -14,26 +14,27 @@ program test_romberg
   test2 = romberg_algo(test_cubic, -7.0_dp, 7.0_dp)
   print *, abs(test2) < epsi
   test3 = romberg_algo(test_wonky, 1.0_dp, 3.0_dp)
+  print *, result3
   print *, abs( &
     test3-result3&
     ) < epsi
   ttest1 = trapezoid_algo(test_wonky, 1.0_dp, 3.0_dp, 3)
-  ttest2 = trapezoid_algo(test_wonky, 1.0_dp, 3.0_dp, 5)
+  ttest2 = trapezoid_algo(test_wonky, 1.0_dp, 3.0_dp, 10)
   print *, abs(ttest2-result3) < abs(ttest1-result3)
   contains
-  elemental function test_cos(arg) result(scalar)
+  function test_cos(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = dcos(arg)
   end function
 
-  elemental function test_cubic(arg) result(scalar)
+  function test_cubic(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = 5.0_dp*arg**3-3.0_dp*arg
   end function
 
-  elemental function test_wonky(arg) result(scalar)
+  function test_wonky(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = (arg**2)*(e**(arg))

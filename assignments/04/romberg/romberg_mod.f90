@@ -46,7 +46,6 @@ module romberg
     real(kind=dp) :: x_spacing
     integer :: sample_points, i
     real(kind=dp), dimension(:),allocatable :: weights, sample_xs
-
     sample_points = 2**resolution
     x_spacing = (upper-lower)/(2**resolution)
     allocate(sample_xs (0:sample_points))
@@ -55,6 +54,17 @@ module romberg
     weights = 2.0_dp
     weights(0) = weights(0)-1.0_dp
     weights(sample_points) = weights(sample_points)-1.0_dp
-    scalar = func(lower)+ func(upper)+4
+    print *, func(sample_xs), func(sample_xs(0))
+    scalar = sum(func(sample_xs)*weights)
+
+    contains
+
+    ! elemental function evaluator(arg) result(scalar2)
+    !   real(kind=dp), intent(in) :: arg
+    !   real(kind=dp) :: scalar2
+    !   scalar = func(arg)
+    ! end function evaluator
+
+
   end function
 end module romberg

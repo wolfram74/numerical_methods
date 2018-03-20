@@ -21,19 +21,19 @@ program test_romberg
   ttest2 = trapezoid_algo(test_wonky, 1.0_dp, 3.0_dp, 5)
   print *, abs(ttest2-result3) < abs(ttest1-result3)
   contains
-  function test_cos(arg) result(scalar)
+  elemental function test_cos(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = dcos(arg)
   end function
 
-  function test_cubic(arg) result(scalar)
+  elemental function test_cubic(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = 5.0_dp*arg**3-3.0_dp*arg
   end function
 
-  function test_wonky(arg) result(scalar)
+  elemental function test_wonky(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = (arg**2)*(e**(arg))

@@ -52,15 +52,16 @@ module romberg
             -approximations(subdivision_power-1, layer_number-1)&
             )/(4**layer_number - 1)
         end if
-        if((layer_number .eq. subdivision_power) .and. (subdivision_power .gt. 5)) then
+        if((layer_number == subdivision_power) .and. (subdivision_power > 5)) then
           current_best = approximations(subdivision_power, layer_number)
           last_best = approximations(subdivision_power-1, layer_number-1)
-          if(abs(last_best-current_best) .lt. precision) then
+          if(abs(last_best-current_best) < precision) then
             scalar = current_best
             return
           end if
         end if
       end do
+      print *, approximations(subdivision_power, 0:5)
     end do
   end function
 

@@ -4,8 +4,8 @@ program use_romberg
   implicit none
   real(kind=dp) :: pi = 3.141592653589793_dp
 
-  ! call part_b()
-  call part_c()
+  call part_b()
+  ! call part_c()
   contains
   function b_a(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
@@ -42,13 +42,15 @@ program use_romberg
   subroutine part_b()
     real(kind=dp) :: val_a, val_b, val_c, val_c_alt
     val_a = romberg_algo(b_a, 0.0_dp, 1.0_dp)
-    val_b = romberg_algo(b_b, 0.0_dp, 2.0_dp*pi)
-    val_c = romberg_algo(b_c, 0.0_dp, 10.0_dp**(6.0_dp))
-    val_c_alt = romberg_algo(b_c_alt, 0.0_dp, 0.999_dp)
     print *, val_a
+    val_b = romberg_algo(b_b, 0.0_dp, 2.0_dp*pi)
     print *, val_b
     print *, 'value b in multiples of pi', val_b/pi
+    val_c = romberg_algo(b_c, 0.0_dp, 10.0_dp**(3.0_dp))
     print *, val_c
+    print *, 'error using naive form'
+    print *, (val_c-0.62144962423581_dp)
+    val_c_alt = romberg_algo(b_c_alt, 0.0_dp, 1.0_dp-10.0_dp**(-6.0_dp))
     print *, val_c_alt
     print *, 'error using alt form'
     print *, (val_c_alt-0.62144962423581_dp)
@@ -68,7 +70,7 @@ program use_romberg
       ! print *, result
       ! print *, temp(i), ratio**3*result
       ! print *, temp(i)
-      print *, ratio**3*result
+      ! print *, ratio**3*result
     end do
   end subroutine
 end program use_romberg

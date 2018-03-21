@@ -33,7 +33,7 @@ module romberg
     real(kind=dp) :: func
     real(kind=dp), intent(in) :: lower, upper
     real(kind=dp) :: scalar, current_best, last_best
-    real(kind=dp) :: precision=(10_dp**(-3._dp))
+    real(kind=dp) :: precision=(10_dp**(-6._dp))
     real(kind=dp), dimension(0:19 , 0:19) :: approximations
     integer :: subdivision_power, layer_number
     approximations = 0
@@ -57,6 +57,7 @@ module romberg
           last_best = approximations(subdivision_power-1, layer_number-1)
           if(abs(last_best-current_best) < precision) then
             scalar = current_best
+            print *, "layer level", subdivision_power
             return
           end if
         end if

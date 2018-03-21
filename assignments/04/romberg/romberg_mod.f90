@@ -29,15 +29,19 @@ module romberg
   integer, parameter :: dp =selected_real_kind(15,307)
 
   contains
+  function oneD(arg) result(scalar)
+    real(kind=dp), intent(in) :: arg
+    real(kind=dp):: scalar
+  end function
+
   function romberg_algo(func, lower, upper) result(scalar)
-    real(kind=dp) :: func
+    procedure(oneD) :: func
     real(kind=dp), intent(in) :: lower, upper
     real(kind=dp) :: scalar, current_best, last_best
     real(kind=dp) :: precision=(10_dp**(-6._dp))
     real(kind=dp), dimension(0:19 , 0:19) :: approximations
     integer :: subdivision_power, layer_number
     approximations = 0
-    scalar = func(2)
     do subdivision_power=0,19
       do layer_number=0, subdivision_power
         if( layer_number .eq. 0) then

@@ -30,10 +30,13 @@ program use_romberg
     scalar = exp(-sub_arg)/(1.0_dp+sub_arg**2)*dsub_arg
   end function
 
-  function capacity_integral(arg) result(scalar)
+  function capacity_integrand(arg) result(scalar)
     real(kind=dp), intent(in) :: arg
     real(kind=dp) :: scalar
     scalar = exp(arg)*(arg**4.0_dp)*(exp(arg)-1.0_dp)**(-2.0_dp)
+    if(isnan(scalar)) then
+      scalar=0.0_dp
+    end if
   end function
 
   subroutine part_b()
@@ -44,6 +47,7 @@ program use_romberg
     val_c_alt = romberg_algo(b_c_alt, 0.0_dp, 0.999_dp)
     print *, val_a
     print *, val_b
+    print *, 'value b in multiples of pi', val_b/pi
     print *, val_c
     print *, val_c_alt
     print *, 'error using alt form'
@@ -52,18 +56,20 @@ program use_romberg
 
   subroutine part_c()
     real(kind=dp) :: spec_heat=309, ratio, result
-    integer :: samples = 20, i
+    integer :: samples = 1083, i
     real(kind=dp), dimension(:), allocatable :: temp
     allocate(temp(samples))
-    temp = [(2.0_dp**(i-samples/2), i=1, samples, 1)]
+    temp = [(i, i=1, samples, 1)]
     do i=1,samples
       ratio = temp(i)/spec_heat
-      print *, temp(i), &
-        ratio**3, 1.0_dp/ratio
-      result = romberg_algo(capacity_integral,10.0_dp**(-9),1.0_dp/ratio)
-      print *, result
+      ! print *, temp(i), &
+      !   ratio**3, 1.0_dp/ratio
+      result = romberg_algo(capacity_integrand,10.0_dp**(-9),1.0_dp/ratio)
+      ! print *, result
+      ! print *, temp(i), ratio**3*result
+      ! print *, temp(i)
+      print *, ratio**3*result
     end do
-
   end subroutine
 end program use_romberg
 ! 3b3 ~ 0.621449624235813357

@@ -1,5 +1,5 @@
 PROGRAM spline
- 
+
  IMPLICIT NONE
 
  INTEGER            :: i, k, loc
@@ -35,6 +35,13 @@ PROGRAM spline
     REAL, INTENT(IN)                :: x0        ! x value of interpolated point
     INTEGER, INTENT(IN OUT)         :: loc
   END SUBROUTINE BISECT_SEARCH
+  subroutine thomas(a, b, c, rhs, n, dy_2)
+    implicit none
+    integer, intent(in) :: n
+    real, intent(in), dimension(n) :: b, rhs
+    real, intent(out), dimension(n) :: dy_2
+    real, intent(in), dimension(n) :: a, c
+  end subroutine thomas
  END INTERFACE
 
  OPEN(unit=10,file="SPLINE_DATA.DAT",status="old")
@@ -49,21 +56,21 @@ PROGRAM spline
    dy(2) = -.75
  END IF
 
-!Calcualte the second derivatives needed for the 
+!Calcualte the second derivatives needed for the
 !calculation of the splines
  CALL GET_2ND_DERIVATIVE(x,y,dy_2,dy,n,natural)
 
-!Calculate the interpolated values in 1000 steps form the 
+!Calculate the interpolated values in 1000 steps form the
 !first to the last x postition
  DO i=1,1000,1
    x0 = x(1) + (x(n)-x(1))/1000.*(i-1)
    CALL bisect_search(x,x0,loc,n)
-   k = MIN(MAX(loc-1/2,1),n-1) 
+   k = MIN(MAX(loc-1/2,1),n-1)
    CALL CUBIC_SPLINE(x(k),y(k),dy_2(k),x0,y0)
    WRITE(20,*) x0, y0
  END DO
 
- CLOSE(10) 
+ CLOSE(10)
  CLOSE(20)
 
 STOP
@@ -74,8 +81,8 @@ SUBROUTINE GET_2ND_DERIVATIVE(X,Y,DY_2,DY,N,NATURAL)
 !
 ! Calculates the array of second derivatives, dy_2, needed for evaluating the
 ! cubic spline formula, g(x) = A y(i) + B y(i+1) + C dy_2(i) + D dy_2(i+1), given
-! length-n arrays of support points, x and y.  For natural spline (natural = .true.), 
-! dy_2(1) = 0 and dy_2(n) = 0 with the tridiagonal solver called using the 
+! length-n arrays of support points, x and y.  For natural spline (natural = .true.),
+! dy_2(1) = 0 and dy_2(n) = 0 with the tridiagonal solver called using the
 ! reduced (n-2) x (n-2)
 ! system.  For clamped spline (natural = .false.), the user must specify the first
 ! derivatives at x(1) and x(n), namely, dy(1) and dy(2), respectively, which are
@@ -93,7 +100,7 @@ SUBROUTINE GET_2ND_DERIVATIVE(X,Y,DY_2,DY,N,NATURAL)
 
 !  Initialize
    dy_2=0.
-   
+
 !  You need to calulate your values (vectors) a, b, c, and the right-hand side
 !  that are needed for the calculation of the second derivative.
 !!!!
@@ -107,16 +114,17 @@ SUBROUTINE GET_2ND_DERIVATIVE(X,Y,DY_2,DY,N,NATURAL)
 
 !! YOUR WORK GOES IN HERE!!!!!
 !! CALL YOUR SOLVER FOR THE 2nd DERIVATIVE
-!  call thomas(...)
- 
+  print *, 'calling thomas'
+ call thomas(a, b, c, rhs, n, dy_2)
+
  RETURN
 END SUBROUTINE GET_2ND_DERIVATIVE
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 SUBROUTINE CUBIC_SPLINE(x,y,dy_2,x0,y0)
 !
-! Evaluates the cubic spline formula, g(x) = A y(1) + B y(2) + C dy_2(1) + D dy_2(2).  
-! Note a call to cubic_spline is first necessary to set of the array of second derivatives, 
+! Evaluates the cubic spline formula, g(x) = A y(1) + B y(2) + C dy_2(1) + D dy_2(2).
+! Note a call to cubic_spline is first necessary to set of the array of second derivatives,
 ! dy_2.  Furthermore a search must be performed to locate the integer i such that x(i) < x0 < x(i+1).
 !
    IMPLICIT NONE
@@ -124,12 +132,12 @@ SUBROUTINE CUBIC_SPLINE(x,y,dy_2,x0,y0)
    REAL, INTENT(IN)               :: x0
    REAL, INTENT(OUT)              :: y0
    REAL                           :: A, B, del_x
- 
+
     del_x = x(2) - x(1)
     A = (x(2) - x0)/del_x
     B = (x0 - x(1))/del_x
     y0 = A*y(1) + B*y(2) + (del_x**2/6.)*((A**3-A)*dy_2(1) + (B**3-B)*dy_2(2))
- 
+
  RETURN
 END SUBROUTINE CUBIC_SPLINE
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -141,12 +149,12 @@ SUBROUTINE bisect_search(x_arr,x0,loc,n)
 ! out of bounds, loc = 0 or loc = n+1.
 !
  IMPLICIT NONE
- 
+
  INTEGER                 :: il, iu, im
  INTEGER, INTENT(in)     :: n
  INTEGER, INTENT(IN OUT) :: loc
  REAL, INTENT(IN)        :: x0, x_arr(n)
- 
+
 ! Perform bisection search on monotonically increasing data
   il = 1
   iu = n
@@ -159,7 +167,7 @@ SUBROUTINE bisect_search(x_arr,x0,loc,n)
      END IF
   END DO
   loc = il
- 
+
 ! If x0 is out of bounds return 0 or n+1 or n if x0 = x_arr(n).
   IF(x0.lt.x_arr(1)) THEN
      loc = 0
@@ -168,6 +176,41 @@ SUBROUTINE bisect_search(x_arr,x0,loc,n)
   ELSE IF(x0.eq.x_arr(n)) THEN
      loc = n
   END IF
- 
+
  RETURN
-END SUBROUTINE bisect_search                    
+END SUBROUTINE bisect_search
+
+subroutine thomas(a, b, c, rhs, n,dy_2)
+    implicit none
+    integer, intent(in) :: n
+    real, intent(in), dimension(n) :: b, rhs
+    real, intent(out), dimension(n) :: dy_2
+    real, intent(in), dimension(n) :: a, c
+    real, dimension(n) :: ta, tb, tc, trhs
+    integer :: index
+    ta=a
+    tb=b
+    tc=c
+    trhs=rhs
+    print *, 'thomas running'
+    print *, b, size(b)
+    print *, ta, size(b)
+    do index =2, size(b, 1)-1
+      ! print *, index, trhs(index)
+      trhs(index) = trhs(index)/tb(index)
+      tb(index) = 1.0
+      if(index == size(b, 1)-1) exit
+      trhs(index+1) = trhs(index+1) - trhs(index)/ta(index+1)
+      ta(index+1)=0.0
+      ! print *, trhs(index)
+    end do
+    do index=(size(b,1)-2), 2, -1
+      ! print *, index, rhs(index)
+      trhs(index) = trhs(index)-trhs(index+1)*tc(index)
+      tc(index) = 0.0
+      if(index == 2) exit
+      ! print *, trhs(index)
+    end do
+    print *, trhs
+    dy_2=trhs
+end subroutine thomas

@@ -61,7 +61,7 @@ module romberg
           end if
         end if
       end do
-      print *, approximations(subdivision_power, 0:5)
+      ! print *, approximations(subdivision_power, 0:5)
     end do
   end function
 
@@ -82,8 +82,12 @@ module romberg
     weights = 1.0_dp
     weights(0) = weights(0)-0.5_dp
     weights(sample_points) = (weights(sample_points)-0.5_dp)
+    ! print *, scalar, func(sample_xs(0))*weights(0)*x_spacing
+    ! print *, sample_xs(1), func(sample_xs(1))
+    ! print *, scalar+func(sample_xs(0))*weights(0)*x_spacing
     do i=0,sample_points
-      scalar = scalar +func(sample_xs(i))*weights(i)*x_spacing
+      scalar = scalar + func(sample_xs(i))*weights(i)*x_spacing
+      ! print *, i, scalar
     end do
   end function
 

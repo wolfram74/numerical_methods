@@ -32,10 +32,36 @@ module romberg
   function romberg_algo(func, lower, upper) result(scalar)
     real(kind=dp) :: func
     real(kind=dp), intent(in) :: lower, upper
-    real(kind=dp) :: scalar
+    real(kind=dp) :: scalar, current_best, last_best
     real(kind=dp) :: precision=(10_dp**(-3._dp))
-
-    scalar = func(lower)+ func(upper)+4
+    real(kind=dp), dimension(0:19 , 0:19) :: approximations
+    integer :: subdivision_power, layer_number
+    approximations = 0
+    scalar = func(2)
+    do subdivision_power=0,19
+      do layer_number=0, subdivision_power
+        if( layer_number .eq. 0) then
+          approximations(&
+            subdivision_power, layer_number&
+            ) = trapezoid_algo(func, lower, upper, subdivision_power)
+        else
+          approximations(&
+            subdivision_power, layer_number&
+            ) = (&
+            4**layer_number*approximations(subdivision_power, layer_number-1)&
+            -approximations(subdivision_power-1, layer_number-1)&
+            )/(4**layer_number - 1)
+        end if
+        if((layer_number .eq. subdivision_power) .and. (subdivision_power .gt. 5)) then
+          current_best = approximations(subdivision_power, layer_number)
+          last_best = approximations(subdivision_power-1, layer_number-1)
+          if(abs(last_best-current_best) .lt. precision) then
+            scalar = current_best
+            return
+          end if
+        end if
+      end do
+    end do
   end function
 
   function trapezoid_algo(func, lower, upper, resolution) result(scalar)
@@ -59,4 +85,17 @@ module romberg
       scalar = scalar +func(sample_xs(i))*weights(i)*x_spacing
     end do
   end function
+
+  subroutine tensor_r2_print(tensor)
+    real(kind=dp) :: tensor(:, :)
+    integer :: row_index, col_index
+    do row_index=1,size(tensor,1)
+      !0.nnnE±ee
+      do col_index=1,size(tensor,2)
+        write( *, '(E9.3E2,2x)', advance="no")&
+          (tensor(row_index, col_index))
+      end do
+      write( *, *) ""
+    end do
+  end subroutine tensor_r2_print
 end module romberg

@@ -2,7 +2,7 @@ program use_romberg
   ! use romberg only : romberg_algo
   use romberg
   implicit none
-  real(kind=dp) :: pi = 3.141592653589793_dp
+  real(kind=dp) :: pi = 3.141592653589793_dp, e = 2.718281828459045_dp
 
   call part_b()
   ! call part_c()
@@ -43,6 +43,7 @@ program use_romberg
     real(kind=dp) :: val_a, val_b, val_c, val_c_alt
     val_a = romberg_algo(b_a, 0.0_dp, 1.0_dp)
     print *, val_a
+    print *, val_a-(e-1.0_dp)
     val_b = romberg_algo(b_b, 0.0_dp, 2.0_dp*pi)
     print *, val_b
     print *, 'value b in multiples of pi', val_b/pi

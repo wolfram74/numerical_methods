@@ -45,18 +45,17 @@ def results_relationships(main, results, intermediates):
 
 def gen_makefile(intermediates, results, dependencies):
     makefile = open('./Makefile', 'w')
-    makefile.write('''
-COMP_FLAGS = -Wall -Wextra
+    makefile.write('''COMP_FLAGS = -Wall -Wextra
 COMPILER = gfortran
 
-INTERMEDIATES = \\ \n''')
+INTERMEDIATES = \\\n''')
     for line_num in range(len(intermediates)):
         if line_num==len(intermediates)-1:
             makefile.write(intermediates[line_num]+'\n')
             break
         makefile.write(intermediates[line_num]+'\\\n')
-    makefile.write('RESULTS = \\\n')
     makefile.write('\n')
+    makefile.write('RESULTS = \\\n')
     for line_num in range(len(results)):
         if line_num==len(results)-1:
             makefile.write(results[line_num]+'\n')
@@ -78,6 +77,7 @@ INTERMEDIATES = \\ \n''')
     makefile.write('\n')
     makefile.write('run :\n')
     makefile.write('\tmake clean; make; ./' + (filter(lambda x: not 'test' in x, results))[0])
+    makefile.close()
 
 def gen_empty_sources(intermediates, results, dependencies):
     print(intermediates)
@@ -90,15 +90,28 @@ end module %s
         """
     usage_template ="""
 program %s
-    %s
+    use %s
     implicit none
     contains
-end module %s
+end program %s
         """
 
-    # for name in intermediates:
-
-
+    for name in intermediates:
+        if 'mod.o' in name:
+            print('module found')
+            lable = name[:-6]
+            module = open('./%s_mod.f90'%lable, 'w')
+            module.write(module_template % (lable, lable))
+            module.close()
+            continue
+        lable = name[:-2]
+        ken_file = lable+'.ken'
+        imports = filter(lambda x: 'mod.o' in x, dependencies[ken_file])
+        import_lables = map(lambda x: x[:-6], imports)
+        imports_string = '\n    use '.join(import_lables)
+        source = open('./%s.f90'%lable, 'w')
+        source.write(usage_template%(lable, imports_string, lable))
+        # print(imports)
 if __name__ == '__main__':
     print('extracting description')
     main, modules  = description_parse()

@@ -13,7 +13,7 @@ main_project.ken
 
 $(RESULTS): $(INTERMEDIATES)
 	$(COMPILER) -o main_project.ken $(COMP_FLAGS) algorithms_mod.o main_project.o
-	$(COMPILER) -o test_algorithms.ken $(COMP_FLAGS) algorithms_mod.o test_algorithms.o
+	$(COMPILER) -o test_algorithms.ken $(COMP_FLAGS) algorithms_mod.o test_algorithms.o assets_mod.o
 $(INTERMEDIATES):
 	$(COMPILER) -O -c $(@:.o=.f90)
 

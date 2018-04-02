@@ -6,7 +6,7 @@ module assets
   type body2d
     real(kind=dp) :: mass, location(2), velocity(2)
     contains
-    procedure :: distance
+    procedure :: distance => distanceIsolated
   end type body2d
   type(body2d), parameter :: nullBody= body2d(&
     0.0_dp,&
@@ -18,7 +18,7 @@ module assets
 
   contains
 
-  function distance(body1, body2) result(scalar)
+  function distanceIsolated(body1, body2) result(scalar)
     class(body2d), intent(in):: body1, body2
     real(kind=dp) :: scalar
     scalar = 0

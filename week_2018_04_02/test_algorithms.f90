@@ -10,6 +10,7 @@ program test_algorithms
   testBody%location = [5.0_dp, 0.0_dp]
   testBody%velocity = [0.0_dp, 0.0_dp]
   length = testBody%distance(nullBody)
+  ! length = distanceIsolated(testBody, nullBody)
   print *, length
   print *, nullBody%mass
   contains

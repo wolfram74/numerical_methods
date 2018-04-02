@@ -12,19 +12,17 @@ module assets
     0.0_dp,&
     [0.0_dp, 0.0_dp], &
     [0.0_dp, 0.0_dp] )
-  ! nullBody%mass =
-  ! nullBody%location =
-  ! nullBody%velocity =
 
   contains
 
   function distanceIsolated(body1, body2) result(scalar)
     class(body2d), intent(in):: body1, body2
     real(kind=dp) :: scalar
-    scalar = 0
-    scalar = (body1%location(1)-body2%location(1))**2
-    scalar = scalar + (body1%location(2)-body2%location(2))**2
-    scalar = scalar**(0.5_dp)
+    scalar = 0.0_dp
+    scalar = ( &
+      (body1%location(1)-body2%location(1))**2 &
+      + (body1%location(2)-body2%location(2))**2 &
+      )**(0.5_dp)
   end function
 
 end module assets

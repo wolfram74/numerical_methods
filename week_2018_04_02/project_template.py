@@ -84,15 +84,15 @@ def gen_empty_sources(intermediates, results, dependencies):
     print(results)
     module_template = """
 module %s
-    implicit none
-    contains
+  implicit none
+  contains
 end module %s
         """
     usage_template ="""
 program %s
-    use %s
-    implicit none
-    contains
+  use %s
+  implicit none
+  contains
 end program %s
         """
 

@@ -18,11 +18,8 @@ module assets
   function distanceIsolated(body1, body2) result(scalar)
     class(body2d), intent(in):: body1, body2
     real(kind=dp) :: scalar
-    scalar = 0.0_dp
-    scalar = ( &
-      (body1%location(1)-body2%location(1))**2 &
-      + (body1%location(2)-body2%location(2))**2 &
-      )**(0.5_dp)
+    scalar = &
+      sum((body1%location-body2%location)**2)**(0.5_dp)
   end function
 
 end module assets

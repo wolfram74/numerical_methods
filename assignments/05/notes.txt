@@ -1,0 +1,29 @@
+1)
+  implement an n-set rk4 S.T
+    takes
+      function for each derivative vector variable (all but one of initial conditions)
+      initial conditions
+      step size
+    returns
+      evolved initial conditions
+    derivative function should be structured so that it returns a vector of same size as variables
+  usage module will
+    include
+      definitions for functions
+      function for storing path in file
+2)
+  implement adaptive rk4
+    a overarching controller takes
+      function describing derivatives
+      initial conditions
+      initial step size
+      optional duration (default 10.0)
+      optional max step count (default 10000)
+      optional precision control (default 10**-6)
+    using the single step rk4
+      take 2 steps with stepSize
+        call it smallSteps
+      take 1 step with 2*stepSize
+        call it bigStep
+
+

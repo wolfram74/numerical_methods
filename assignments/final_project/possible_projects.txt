@@ -1,0 +1,47 @@
+lattice response project
+  --summary
+  generate a large number of bodies that interact over short distances
+  impose a binding a potential/periodic boundary conditions
+  use a cell list to make force evaluation a ~constant effort function
+    https://en.wikipedia.org/wiki/Cell_lists
+  explore angle and driving frequency response
+  --challenges
+  initializing system
+  implementing cell list
+  storing results
+  deciding how interaction forces take place
+  deciding how to assert ambient/driving forces
+  displaying results
+  validating solver
+
+double pendulum exploration project
+  --summary
+  set up numerical solver to double pendulum system
+  generate these images https://en.wikipedia.org/wiki/File:Double_pendulum_flips_graph.png for various parameters
+  possibly play around with using clusters for parallelism
+  --challenges
+  subdividing problem
+  learning how to dispatch to cluster
+  displaying results
+  validating solver
+
+finding uranus project
+  --summary
+  using http://www.astro-phys.com/api ephemiris API get historical data on planet location
+  using a n-body gravity solver to simulate the solar system find deviations when uranus is neglected
+  use least-squares process to make predictions about where uranus /should/ be
+  --challenges
+  validating solver
+  deciding how interaction forces take place
+  learning enough about least-squares
+  deciding on a search algorithm
+  extra: playing with the input precision to see how it impacts output precision
+
+supposing gaussian potential
+u0*e^(-x^2/l^2)
+force is
+-u0 2 x l^-2 e^(-x^2/l^2)
+extrema in force is where
+-u0 2 l^-2 e^(-x^2/l^2) + u0 4 x^2 l^-4 e^(-x^2/l^2)=0
+or
+[ x^2 - l^2/2 ] u0 4 l^-4 e^(-x^2/l^2)=0

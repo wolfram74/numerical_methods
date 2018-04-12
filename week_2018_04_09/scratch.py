@@ -76,24 +76,24 @@ def verlet_err():
     print('energy expressions')
     sympy.pprint(te1)
     sympy.pprint(te2)
-    print('difference')
+    print('approximate difference at small h')
     discrep = (te2-te1)
     # sympy.pprint(discrep)
     # sympy.pprint(discrep.expand(h).collect(h))
-    gauss_terms = discrep.expand().collect(u)
+    # gauss_terms = discrep.expand().collect(u)
     # sympy.pprint(gauss_terms)
-    approx = taylor(gauss_terms, h, 4)
-    sympy.pprint(approx)
-    cubic_coeff=approx.coeff(h, 3).expand().collect(u)
-    sympy.pprint(cubic_coeff)
+    approx = taylor(discrep, h, 4)
+    sympy.pprint(approx.expand().collect(h))
+    # cubic_coeff=approx.coeff(h, 3).expand().collect(u)
+    # sympy.pprint(cubic_coeff)
     try:
         maxA
     except NameError:
         maxA=None
     if maxA != None:
-        print('discrep at max acceleration')
+        print('discrepancy at max acceleration')
         sympy.pprint(maxA)
-        sympy.pprint(cubic_coeff.subs(x, maxA))
+        sympy.pprint(approx.subs(x, maxA))
 
     return
 

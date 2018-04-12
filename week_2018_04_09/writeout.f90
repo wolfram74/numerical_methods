@@ -18,7 +18,6 @@ program main_project
       print*, trim(fileName)
       open(1, file=fileName)
       do lineCount=1,size(dataVals,1)
-        ! print *, lineCount, dataVals(lineCount, :)
         write(1, *) dataVals(lineCount, :)
       end do
       close(1)

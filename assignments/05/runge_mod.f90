@@ -27,7 +27,7 @@ module runge
     kernel2 = stepSize * gradFunc(state+kernel1*0.5_dp)
     kernel3 = stepSize * gradFunc(state+kernel2*0.5_dp)
     kernel4 = stepSize * gradFunc(state+kernel3)
-    stateStep = state + (6.0_dp**(-1))*(&
+    stateStep = (6.0_dp**(-1))*(&
       kernel1 +&
       2.0_dp * kernel2 +&
       2.0_dp * kernel3 +&

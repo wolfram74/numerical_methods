@@ -40,8 +40,8 @@ module runge
     real(kind=dp), intent(in) :: endTime
     integer, intent(in) :: totalSteps
     real(kind=dp), allocatable :: path(:, :)
-    real(kind=dp) :: stateSize, stepSize
-    integer :: stepNum
+    real(kind=dp) ::  stepSize
+    integer :: stepNum, stateSize
     stateSize = size(state)
 
     if (totalSteps < 2) then
@@ -62,5 +62,22 @@ module runge
         )
     end do
   end function nonAdaptiveRK4
+
+  function writeOutAtTime(dataVals) result(status)
+    real(kind=dp), intent(in) :: dataVals(:, :)
+    integer(kind=4) :: fileNumber
+    character(len=20) :: fileName
+    integer :: status, lineCount
+    fileNumber = time()
+    write(fileName, '(i10, a4)') fileNumber, '.txt'
+    print*, trim(fileName)
+    open(1, file=fileName)
+    do lineCount=1,size(dataVals,1)
+      write(1, *) dataVals(lineCount, :)
+    end do
+    close(1)
+    status = 4
+  end function writeOutAtTime
+
 end module runge
 

@@ -70,12 +70,14 @@ program test_runge
   subroutine testNonAdaptivePath()
     path1 = nonAdaptiveRK4(harmonicForce, test1, 1, pi)
     steps = 100
-    allocate()
+    allocate(pathLong(steps,3))
     print*, 'varrying path length tests'
     print*, path1
-    path10 = nonAdaptiveRK4(harmonicForce, test1, 10, 2.0_dp*pi)
-    print*, path10(10,2),path10(1,2), precision
-    print*, abs(path10(10,2)-path10(1,2))<precision
+    pathLong = nonAdaptiveRK4(harmonicForce, test1, steps, 2.0_dp*pi)
+    print*, pathLong(steps,2),pathLong(1,2), precision
+    print*, abs(pathLong(steps,2)-pathLong(1,2))<precision
+    steps = writeOutAtTime(pathLong)
+
   end subroutine testNonAdaptivePath
 
 end program test_runge

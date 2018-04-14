@@ -11,9 +11,9 @@ program main_project
   subroutine useNonAdaptive()
     ! initial = [0.0_dp,1.0_dp,0.0_dp]
     initial = 0.0_dp
-    steps = 400
+    steps = 4000
     allocate(path(steps, 3))
-    path = nonAdaptiveRK4(drivenSHO, initial, steps, 10.0_dp*pi)
+    path = nonAdaptiveRK4(drivenSHO, initial, steps, 100.0_dp*pi)
     status = writeOutAtTime(path)
   end subroutine useNonAdaptive
 
@@ -24,7 +24,7 @@ program main_project
     deltas = 0.0_dp
     deltas(1) = 1.0_dp
     deltas(2) = state(3)
-    deltas(3) = cos(state(1)) - state(2) -(0.01_dp)*state(3)
+    deltas(3) = cos(1.1_dp*state(1)) - state(2) -(0.05_dp)*state(3)
   end function drivenSHO
 
   function harmonicForce(state) result(deltas)

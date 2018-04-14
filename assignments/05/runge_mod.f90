@@ -33,5 +33,34 @@ module runge
       kernel4 &
       )
   end function rk4Step
+
+  function nonAdaptiveRK4(gradFunc, state, totalSteps, endTime) result(path)
+    procedure(gradForm) :: gradFunc
+    real(kind=dp), intent(in) :: state(:)
+    real(kind=dp), intent(in) :: endTime
+    integer, intent(in) :: totalSteps
+    real(kind=dp), allocatable :: path(:, :)
+    real(kind=dp) :: stateSize, stepSize
+    integer :: stepNum
+    stateSize = size(state)
+
+    if (totalSteps < 2) then
+      allocate(path(1, stateSize))
+      path(1, :) = state
+      return
+    end if
+
+    allocate(path(totalSteps, stateSize))
+    stepSize = (endTime-state(1))/(totalSteps-1)
+    path(1, :) = state
+
+    do stepNum=2,totalSteps
+      path(stepNum, :) = (&
+        path(stepNum-1,:)+ rk4Step(&
+          gradFunc, path(stepNum-1,:), stepSize &
+          ) &
+        )
+    end do
+  end function nonAdaptiveRK4
 end module runge
 

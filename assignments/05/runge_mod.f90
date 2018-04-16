@@ -17,11 +17,13 @@ module runge
                                   kernel3(:), kernel4(:)
     integer :: stateSize
     stateSize = size(state)
-    allocate(deltaState(stateSize) )
-    allocate(kernel1(stateSize))
-    allocate(kernel2(stateSize))
-    allocate(kernel3(stateSize))
-    allocate(kernel4(stateSize))
+    allocate(&
+      deltaState(stateSize),&
+      kernel1(stateSize),&
+      kernel2(stateSize),&
+      kernel3(stateSize),&
+      kernel4(stateSize)&
+      )
     kernel1 = stepSize * gradFunc(state + 0)
     kernel2 = stepSize * gradFunc(state + kernel1*0.5_dp)
     kernel3 = stepSize * gradFunc(state + kernel2*0.5_dp)
@@ -62,6 +64,23 @@ module runge
         )
     end do
   end function nonAdaptiveRK4
+
+  function adaptiveRK4(gradFunc, state, endTime, precision) result(path)
+    procedure(gradForm) :: gradFunc
+    real(kind=dp), intent(in) :: state(:)
+    real(kind=dp), intent(in) :: endTime, precision
+    real(kind=dp), allocatable :: path(:, :), doubleStep(:), twoSingleStep(:)
+    real(kind=dp) ::  stepSize, timeLeft
+    integer :: totalSteps, stepNum, stateSize
+    stateSize = size(state)
+    timeLeft = endTime-state(1)
+
+    if (timeLeft < 0.0_dp) then
+      allocate(path(1, stateSize))
+      path(1, :) = state
+      return
+    end if
+  end function adaptiveRK4
 
   function writeOutAtTime(dataVals) result(status)
     real(kind=dp), intent(in) :: dataVals(:, :)

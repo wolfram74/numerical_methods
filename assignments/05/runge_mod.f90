@@ -70,11 +70,14 @@ module runge
     real(kind=dp), intent(in) :: state(:)
     real(kind=dp), intent(in) :: endTime, precision
     real(kind=dp), allocatable :: path(:, :), doubleStep(:), twoSingleStep(:)
-    real(kind=dp) ::  stepSize, timeLeft
+    real(kind=dp) ::  stepSize, timeLeft, maxDisagreement
+    logical :: running = .true.
     integer :: totalSteps, stepNum, stateSize
     stateSize = size(state)
+    stepSize = 2.0_dp**(-5)
     timeLeft = endTime-state(1)
     totalSteps = 10000
+    print*, timeLeft
     if (timeLeft < 0.0_dp) then
       allocate(path(1, stateSize))
       path(1, :) = state
@@ -82,6 +85,21 @@ module runge
     end if
 
     allocate(path(totalSteps, stateSize))
+    path = 0.0_dp
+    path(1, :) = state
+    stepNum = 2
+    print*, shape(path)
+    do while( running )
+      doubleStep = state + rk4Step(gradFunc, state, 2.0_dp*stepSize)
+      twoSingleStep = state + rk4Step(gradFunc, state, 1.0_dp*stepSize)
+      twoSingleStep = twoSingleStep + rk4Step( &
+        gradFunc, twoSingleStep, 1.0_dp*stepSize &
+        )
+      maxDisagreement = maxRelativeError(doubleStep, twoSingleStep)
+      print*, maxDisagreement
+      path(stepNum, :) = twoSingleStep
+      running = .false.
+    end do
   end function adaptiveRK4
 
   function maxRelativeError(vec1, vec2) result(scalar)

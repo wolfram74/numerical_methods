@@ -13,6 +13,7 @@ program test_runge
   call testNoForce()
   call increasePrecisionTest()
   call testNonAdaptivePath()
+  call testAdaptivePath()
 
   contains
 
@@ -77,6 +78,7 @@ program test_runge
     print*, pathLong(steps,2),pathLong(1,2), precision
     print*, abs(pathLong(steps,2)-pathLong(1,2))<precision
     ! steps = writeOutAtTime(pathLong)
+    deallocate(pathLong)
   end subroutine testNonAdaptivePath
 
   subroutine testMaxRelErr()
@@ -87,6 +89,19 @@ program test_runge
     print*, 'checking differences in vectors'
     print*, (step-0.01_dp)<precision
   end subroutine testMaxRelErr
+
+  subroutine testAdaptivePath()
+    allocate(pathLong(10000,3))
+    test1 = [0.0_dp, 0.0_dp, 1.0_dp]
+    precision =  10.0_dp**(-6.0_dp)
+
+    path1 = adaptiveRK4(harmonicForce, test1, pi, precision)
+    print*, 'running adaptive rk4 tests'
+    print*, test1
+    print*, path1(1, :)
+    print*, path1(2, :)
+    ! steps = writeOutAtTime(pathLong)
+  end subroutine testAdaptivePath
 
 end program test_runge
 

@@ -76,9 +76,17 @@ program test_runge
     pathLong = nonAdaptiveRK4(harmonicForce, test1, steps, 2.0_dp*pi)
     print*, pathLong(steps,2),pathLong(1,2), precision
     print*, abs(pathLong(steps,2)-pathLong(1,2))<precision
-    steps = writeOutAtTime(pathLong)
-
+    ! steps = writeOutAtTime(pathLong)
   end subroutine testNonAdaptivePath
+
+  subroutine testMaxRelErr()
+    test1 = [0.0_dp, 0.0_dp, 1.0_dp]
+    test2 = [0.0_dp, 0.0_dp, 1.01_dp]
+    step = maxRelativeError(test1, test2)
+
+    print*, 'checking differences in vectors'
+    print*, (step-0.01_dp)<precision
+  end subroutine testMaxRelErr
 
 end program test_runge
 

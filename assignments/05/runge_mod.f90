@@ -74,13 +74,24 @@ module runge
     integer :: totalSteps, stepNum, stateSize
     stateSize = size(state)
     timeLeft = endTime-state(1)
-
+    totalSteps = 10000
     if (timeLeft < 0.0_dp) then
       allocate(path(1, stateSize))
       path(1, :) = state
       return
     end if
+
+    allocate(path(totalSteps, stateSize))
   end function adaptiveRK4
+
+  function maxRelativeError(vec1, vec2) result(scalar)
+    real(kind=dp), intent(in) :: vec1(:), vec2(:)
+    real(kind=dp) :: scalar
+    real(kind=dp), allocatable :: discrepencies(:)
+    allocate(discrepencies(size(vec1)))
+    discrepencies = vec1-vec2
+    scalar = maxval(discrepencies)
+  end function maxRelativeError
 
   function writeOutAtTime(dataVals) result(status)
     real(kind=dp), intent(in) :: dataVals(:, :)

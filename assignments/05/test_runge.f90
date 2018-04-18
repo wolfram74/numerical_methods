@@ -91,16 +91,16 @@ program test_runge
   end subroutine testMaxRelErr
 
   subroutine testAdaptivePath()
+    print*, 'running adaptive rk4 tests'
     allocate(pathLong(10000,3))
     test1 = [0.0_dp, 0.0_dp, 1.0_dp]
     precision =  10.0_dp**(-6.0_dp)
 
-    path1 = adaptiveRK4(harmonicForce, test1, pi, precision)
-    print*, 'running adaptive rk4 tests'
-    print*, test1
-    print*, path1(1, :)
-    print*, path1(2, :)
-    ! steps = writeOutAtTime(pathLong)
+    pathLong = adaptiveRK4(harmonicForce, test1, pi, precision)
+    ! print*, test1
+    print*, pathLong(1, :)
+    print*, pathLong(2, :)
+    steps = writeOutAtTime(pathLong)
   end subroutine testAdaptivePath
 
 end program test_runge

@@ -69,15 +69,16 @@ module runge
     procedure(gradForm) :: gradFunc
     real(kind=dp), intent(in) :: state(:)
     real(kind=dp), intent(in) :: endTime, precision
-    real(kind=dp), allocatable :: path(:, :), doubleStep(:), twoSingleStep(:)
+    real(kind=dp), allocatable :: path(:, :), doubleStep(:), twoSingleStep(:), lastState(:)
     real(kind=dp) ::  stepSize, timeLeft, maxDisagreement
-    logical :: running = .true.
+    logical :: running = .true., lastLoop =.false.
     integer :: totalSteps, stepNum, stateSize
     stateSize = size(state)
     stepSize = 2.0_dp**(-5)
     timeLeft = endTime-state(1)
     totalSteps = 10000
-    print*, timeLeft
+    print*, timeLeft, 'left'
+
     if (timeLeft < 0.0_dp) then
       allocate(path(1, stateSize))
       path(1, :) = state
@@ -85,20 +86,41 @@ module runge
     end if
 
     allocate(path(totalSteps, stateSize))
+    allocate(lastState(stateSize))
     path = 0.0_dp
     path(1, :) = state
     stepNum = 2
     print*, shape(path)
     do while( running )
-      doubleStep = state + rk4Step(gradFunc, state, 2.0_dp*stepSize)
-      twoSingleStep = state + rk4Step(gradFunc, state, 1.0_dp*stepSize)
+      if(lastLoop .or. stepNum == totalSteps) then
+        running = .false.
+      end if
+      lastState = path(stepNum-1, :)
+      doubleStep = lastState + rk4Step(gradFunc, lastState, 2.0_dp*stepSize)
+      twoSingleStep = lastState + rk4Step(gradFunc, lastState, 1.0_dp*stepSize)
       twoSingleStep = twoSingleStep + rk4Step( &
         gradFunc, twoSingleStep, 1.0_dp*stepSize &
         )
       maxDisagreement = maxRelativeError(doubleStep, twoSingleStep)
-      print*, maxDisagreement
+      if (maxDisagreement > precision) then
+        stepSize = stepSize/2.0_dp
+        continue
+      end if
+
       path(stepNum, :) = twoSingleStep
-      running = .false.
+
+      if (maxDisagreement < (precision*10.0_dp**(-3.0_dp))) then
+        stepSize = stepSize*2.0_dp
+      end if
+
+      timeLeft = endTime-path(stepNum, 1)
+      if (timeLeft < stepSize) then
+        print*, 'finished with spare cells', stepNum
+        stepSize = timeLeft
+        lastLoop = .true.
+      end if
+
+      stepNum = stepNum + 1
     end do
   end function adaptiveRK4
 

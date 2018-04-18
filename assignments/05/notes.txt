@@ -27,3 +27,17 @@
         call it bigStep
 
 
+hall lecture notes
+LIGO neatness
+kip thorne was from utah, flattering utahns
+some history of laser-people stuff
+life-path finding algorithm
+big questions in his career
+disparage particle physicists
+?wonder why the prototype meter is shaped wonky?
+middle ground between pulsed and continuous operation laser
+  what's the boundary layer? even continuous operation is pulsed on time scales of stars
+brief discussion of optical trapping
+making acoustical lasers?
+experimental support for fundamental mu and alpha is decaying
+molniya orbit

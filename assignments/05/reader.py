@@ -1,10 +1,7 @@
 from matplotlib import pyplot
-# data_in = open('1523726444.txt', 'r')
-# data_in = open('1523726444.txt', 'r')
-# data_in = open('1523726785.txt', 'r')
 def one_D_Plotter():
-    # data_in = open('1523726785.txt', 'r') #resonant driving fixed-step
-    data_in = open('1523726898.txt', 'r') #off resonant driving fixed-step
+    # data_in = open('resonant_fixed_step.txt', 'r')
+    data_in = open('off_resonant_fixed_step.txt', 'r')
     t_vals_fixed = []
     x_vals_fixed = []
     last_zero_t_fixed = 0.
@@ -24,9 +21,9 @@ def one_D_Plotter():
 
     pyplot.plot(t_vals_fixed, x_vals_fixed)
     # data_in = open('1524065121.txt', 'r') #sho adaptative
-    # data_in = open('1524065717.txt', 'r') #off resonant adaptative
-    data_in = open('1524065810.txt', 'r') #off resonant adaptative
-    # data_in = open('1524065915.txt', 'r') #off resonant adaptative
+    # data_in = open('off_resonant_adaptative_657.txt', 'r')
+    data_in = open('off_resonant_adaptative_714.txt', 'r')
+    # data_in = open('off_resonant_adaptative_1116.txt', 'r')
     t_vals_adaptive = []
     x_vals_adaptive = []
     last_zero_t_adaptive = 0.

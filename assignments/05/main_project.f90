@@ -6,8 +6,8 @@ program main_project
   real(kind=dp) :: pi, precision
   integer :: steps, status
   pi = 3.141592653_dp
-  ! call useNonAdaptive()
-  call useAdaptive1()
+  call useNonAdaptive()
+  ! call useAdaptive1()
   contains
   subroutine useNonAdaptive()
     initial = 0.0_dp

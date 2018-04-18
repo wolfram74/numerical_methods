@@ -55,7 +55,7 @@ module runge
     allocate(path(totalSteps, stateSize))
     stepSize = (endTime-state(1))/(totalSteps-1)
     path(1, :) = state
-
+    print*, stepSize
     do stepNum=2,totalSteps
       path(stepNum, :) = (&
         path(stepNum-1,:)+ rk4Step(&
@@ -119,7 +119,7 @@ module runge
         stepSize = timeLeft
         lastLoop = .true.
       end if
-
+      print*, stepSize
       stepNum = stepNum + 1
     end do
   end function adaptiveRK4

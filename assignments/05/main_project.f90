@@ -6,8 +6,8 @@ program main_project
   real(kind=dp) :: pi, precision
   integer :: steps, status
   pi = 3.141592653_dp
-  call useNonAdaptive()
-  ! call useAdaptive1()
+  ! call useNonAdaptive()
+  call useAdaptive1()
   contains
   subroutine useNonAdaptive()
     initial = 0.0_dp
@@ -20,7 +20,7 @@ program main_project
 
   subroutine useAdaptive1()
     initial = 0.0_dp
-    precision = 10.0_dp**(-11.0_dp)
+    precision = 10.0_dp**(-9.0_dp)
     steps = 10000
     allocate(path(steps, 3))
     path = adaptiveRK4(drivenSHO, initial, 100.0_dp*pi, precision)

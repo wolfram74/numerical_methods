@@ -22,8 +22,11 @@ def one_D_Plotter():
     pyplot.plot(t_vals_fixed, x_vals_fixed)
     # data_in = open('1524065121.txt', 'r') #sho adaptative
     # data_in = open('off_resonant_adaptative_657.txt', 'r')
-    data_in = open('off_resonant_adaptative_714.txt', 'r')
+    # data_in = open('off_resonant_adaptative_714.txt', 'r')
     # data_in = open('off_resonant_adaptative_1116.txt', 'r')
+    # data_in = open('resonant_adaptive_1731.txt', 'r')
+    # data_in = open('1524069410.txt', 'r')
+    data_in = open('1524069462.txt', 'r')
     t_vals_adaptive = []
     x_vals_adaptive = []
     last_zero_t_adaptive = 0.

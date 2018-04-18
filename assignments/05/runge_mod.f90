@@ -103,14 +103,14 @@ module runge
         )
       maxDisagreement = maxRelativeError(doubleStep, twoSingleStep)
       if (maxDisagreement > precision) then
-        stepSize = stepSize/2.0_dp
+        stepSize = stepSize/1.25_dp
         continue
       end if
 
       path(stepNum, :) = twoSingleStep
 
       if (maxDisagreement < (precision*10.0_dp**(-3.0_dp))) then
-        stepSize = stepSize*2.0_dp
+        stepSize = stepSize*1.25_dp
       end if
 
       timeLeft = endTime-path(stepNum, 1)

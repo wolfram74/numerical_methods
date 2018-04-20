@@ -54,5 +54,18 @@ def one_D_Plotter():
     pyplot.show()
     return
 
+def orbit_plotter():
+    # data_in = open('non_adaptive_keplerian.txt', 'r')
+    data_in = open('non_adaptive_keplerian_120steps.txt', 'r')
+    x_vals = []
+    y_vals = []
+    for line in data_in:
+        values = [float(n) for n in line.split()]
+        x_vals.append(values[1])
+        y_vals.append(values[2])
+    pyplot.plot(x_vals,y_vals)
+    pyplot.show()
+
 if __name__ =='__main__':
-    one_D_Plotter()
+    # one_D_Plotter()
+    orbit_plotter()

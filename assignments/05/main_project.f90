@@ -8,7 +8,8 @@ program main_project
   pi = 3.141592653_dp
   ! call useNonAdaptive()
   ! call useAdaptive1()
-  call nonAdaptiveOrbit()
+  ! call nonAdaptiveOrbit()
+  call adaptiveOrbit()
   contains
   subroutine useNonAdaptive()
     initial = 0.0_dp
@@ -38,6 +39,16 @@ program main_project
     deallocate(path)
   end
 
+  subroutine adaptiveOrbit()
+    planetInit = [0.0_dp, 1.0_dp, 0.0_dp, 0.0_dp, 2.0_dp*pi]
+    precision = 10.0_dp**(-3.0_dp)
+    steps = 10000
+    allocate(path(steps, 3))
+    path = adaptiveRK4(keplerian, planetInit, 1.0_dp, precision)
+    status = writeOutAtTime(path)
+    deallocate(path)
+
+  end subroutine adaptiveOrbit
   function drivenSHO(state) result(deltas)
     real(kind=dp), intent(in) :: state(:)
     real(kind=dp), allocatable :: deltas(:)

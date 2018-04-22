@@ -92,10 +92,10 @@ module runge
     stepNum = 2
     print*, shape(path)
     do while( running )
+      lastState = path(stepNum-1, :)
       if(lastLoop .or. stepNum == totalSteps) then
         running = .false.
       end if
-      lastState = path(stepNum-1, :)
       doubleStep = lastState + rk4Step(gradFunc, lastState, 2.0_dp*stepSize)
       twoSingleStep = lastState + rk4Step(gradFunc, lastState, 1.0_dp*stepSize)
       twoSingleStep = twoSingleStep + rk4Step( &
@@ -114,12 +114,12 @@ module runge
       end if
 
       timeLeft = endTime-path(stepNum, 1)
-      if (timeLeft < stepSize) then
+      if (timeLeft < 2.*stepSize .and. running) then
         print*, 'finished with spare cells', stepNum
-        stepSize = timeLeft
+        stepSize = timeLeft/2.
         lastLoop = .true.
       end if
-      print*, stepSize
+      ! print*, stepSize
       stepNum = stepNum + 1
     end do
   end function adaptiveRK4

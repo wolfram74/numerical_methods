@@ -77,7 +77,6 @@ module runge
     stepSize = 2.0_dp**(-10)
     timeLeft = endTime-state(1)
     totalSteps = 10000
-    print*, timeLeft, 'left'
 
     if (timeLeft < 0.0_dp) then
       allocate(path(1, stateSize))
@@ -90,11 +89,16 @@ module runge
     path = 0.0_dp
     path(1, :) = state
     stepNum = 2
-    print*, shape(path)
+
     do while( running )
       lastState = path(stepNum-1, :)
-      if(lastLoop .or. stepNum == totalSteps) then
+      if(lastLoop) then
         running = .false.
+      end if
+      if(stepNum == totalSteps) then
+        running = .false.
+        print*, 'did not finish, time left'
+        print*, timeLeft
       end if
       doubleStep = lastState + rk4Step(gradFunc, lastState, 2.0_dp*stepSize)
       twoSingleStep = lastState + rk4Step(gradFunc, lastState, 1.0_dp*stepSize)
@@ -137,7 +141,7 @@ module runge
     real(kind=dp), intent(in) :: dataVals(:, :)
     character(len=30), optional :: nameIn
     integer(kind=4) :: fileNumber
-    character(len=20) :: fileName
+    character(len=30) :: fileName
     integer :: status, lineCount
 
     fileNumber = time()

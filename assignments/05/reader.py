@@ -1,4 +1,5 @@
 from matplotlib import pyplot
+import math
 def one_D_Plotter():
     # data_in = open('resonant_fixed_step.txt', 'r')
     data_in = open('off_resonant_fixed_step.txt', 'r')
@@ -61,7 +62,8 @@ def orbit_plotter():
     # data_in = open('1524425367.txt', 'r')
     # data_in = open('1524425818.txt', 'r')
     # data_in = open('1524425886.txt', 'r')
-    data_in = open('ellipse1E-7.txt', 'r')
+    # data_in = open('ellipse1E-7.txt', 'r')
+    data_in = open('encke.txt', 'r')
     x_vals = []
     y_vals = []
     for line in data_in:
@@ -71,10 +73,11 @@ def orbit_plotter():
             break
         x_vals.append(values[1])
         y_vals.append(values[2])
+    size = max(x_vals+y_vals)
     axes = pyplot.subplot(111)
     axes.plot(x_vals,y_vals)
-    axes.set_ylim(-1.1, 1.1)
-    axes.set_xlim(-1.1, 1.1)
+    axes.set_ylim(-(size+1), size+1)
+    axes.set_xlim(-(size+1), size+1)
     pyplot.show()
 
 def step_size_plotter():
@@ -96,7 +99,36 @@ def step_size_plotter():
     axes.plot(r_vals[:len(step_vals)],step_vals)
     pyplot.show()
 
+def period_checker(orbit_file):
+    data_in = open(orbit_file, 'r')
+    last_theta = 0
+    current_theta = 0
+    neg = False
+    small = True
+    for line in data_in:
+        values = [float(n) for n in line.split()]
+        current_theta = math.atan2(values[2], values[1])
+        neg = current_theta*last_theta < 0
+        small = abs(current_theta) < 0.5
+        if neg and small:
+            time = values[0]
+            period = (last_time+ values[0])/2
+            print('period is %f' % period)
+            # print(values)
+            # print(current_theta, last_theta)
+            # print(time, last_time)
+            break
+        last_theta = current_theta
+        last_time = values[0]
+
+
 if __name__ =='__main__':
     # one_D_Plotter()
     # orbit_plotter()
-    step_size_plotter()
+    # step_size_plotter()
+    period_checker('encke.txt')
+    period_checker('biela.txt')
+    period_checker('wachmann.txt')
+    period_checker('halley.txt')
+    period_checker('grigg.txt')
+    period_checker('bopp.txt')

@@ -74,7 +74,7 @@ module runge
     logical :: running = .true., lastLoop =.false.
     integer :: totalSteps, stepNum, stateSize
     stateSize = size(state)
-    stepSize = 2.0_dp**(-5)
+    stepSize = 2.0_dp**(-10)
     timeLeft = endTime-state(1)
     totalSteps = 10000
     print*, timeLeft, 'left'
@@ -133,14 +133,21 @@ module runge
     scalar = maxval(discrepencies)
   end function maxRelativeError
 
-  function writeOutAtTime(dataVals) result(status)
+  function writeOutAtTime(dataVals, nameIn) result(status)
     real(kind=dp), intent(in) :: dataVals(:, :)
+    character(len=30), optional :: nameIn
     integer(kind=4) :: fileNumber
     character(len=20) :: fileName
     integer :: status, lineCount
+
     fileNumber = time()
-    write(fileName, '(i10, a4)') fileNumber, '.txt'
-    print*, trim(fileName)
+    if (present(nameIn)) then
+      fileName = nameIn
+    else
+      fileNumber = time()
+      write(fileName, '(i10, a4)') fileNumber, '.txt'
+    end if
+
     open(1, file=fileName)
     do lineCount=1,size(dataVals,1)
       write(1, *) dataVals(lineCount, :)

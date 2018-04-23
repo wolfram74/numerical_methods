@@ -56,16 +56,47 @@ def one_D_Plotter():
 
 def orbit_plotter():
     # data_in = open('non_adaptive_keplerian.txt', 'r')
-    data_in = open('non_adaptive_keplerian_120steps.txt', 'r')
+    # data_in = open('non_adaptive_keplerian_120steps.txt', 'r')
+    # data_in = open('adaptive_keplerian1E-3.txt', 'r')
+    # data_in = open('1524425367.txt', 'r')
+    # data_in = open('1524425818.txt', 'r')
+    # data_in = open('1524425886.txt', 'r')
+    data_in = open('ellipse1E-7.txt', 'r')
     x_vals = []
     y_vals = []
     for line in data_in:
         values = [float(n) for n in line.split()]
+        if values[0]==0.0 and len(x_vals)!=0:
+            print(len(x_vals))
+            break
         x_vals.append(values[1])
         y_vals.append(values[2])
-    pyplot.plot(x_vals,y_vals)
+    axes = pyplot.subplot(111)
+    axes.plot(x_vals,y_vals)
+    axes.set_ylim(-1.1, 1.1)
+    axes.set_xlim(-1.1, 1.1)
+    pyplot.show()
+
+def step_size_plotter():
+    data_in = open('ellipse1E-7.txt', 'r')
+    r_vals = []
+    step_vals = []
+    t_vals = []
+    for line in data_in:
+        values = [float(n) for n in line.split()]
+        if values[0]==0.0 and len(r_vals)!=0:
+            print(len(r_vals))
+            break
+        rsqr = values[1]**2+values[2]**2
+        r_vals.append(rsqr**0.5)
+        t_vals.append(values[0])
+    for index in range(len(t_vals)-1):
+        step_vals.append(t_vals[index+1]-t_vals[index])
+    axes = pyplot.subplot(111)
+    axes.plot(r_vals[:len(step_vals)],step_vals)
     pyplot.show()
 
 if __name__ =='__main__':
     # one_D_Plotter()
-    orbit_plotter()
+    # orbit_plotter()
+    step_size_plotter()

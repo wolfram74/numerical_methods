@@ -142,7 +142,7 @@ module runge
 
   function writeOutAtTime(dataVals, nameIn) result(status)
     real(kind=dp), intent(in) :: dataVals(:, :)
-    character(len=30), optional :: nameIn
+    character(len=*), optional :: nameIn
     integer(kind=4) :: fileNumber
     character(len=30) :: fileName
     integer :: status, lineCount

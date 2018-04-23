@@ -58,13 +58,13 @@ def one_D_Plotter():
 def orbit_plotter():
     # data_in = open('non_adaptive_keplerian.txt', 'r')
     # data_in = open('non_adaptive_keplerian_120steps.txt', 'r')
-    # data_in = open('adaptive_keplerian1E-3.txt', 'r')
+    data_in = open('adaptive_keplerian1E-3.txt', 'r')
     # data_in = open('1524425367.txt', 'r')
     # data_in = open('1524425818.txt', 'r')
     # data_in = open('1524425886.txt', 'r')
     # data_in = open('ellipse1E-7.txt', 'r')
     # data_in = open('encke.txt', 'r')
-    data_in = open('bopp.txt', 'r')
+    # data_in = open('bopp.txt', 'r')
     x_vals = []
     y_vals = []
     for line in data_in:
@@ -80,8 +80,8 @@ def orbit_plotter():
     size = abs(max([size, other_size]))
     axes = pyplot.subplot(111)
     axes.plot(x_vals,y_vals)
-    axes.set_ylim(-(size+1), size+1)
-    axes.set_xlim(-(size+1), size+1)
+    axes.set_ylim(-(size*1.1), size*1.1)
+    axes.set_xlim(-(size*1.1), size*1.1)
     pyplot.show()
 
 def step_size_plotter():
@@ -126,14 +126,52 @@ def period_checker(orbit_file):
         last_theta = current_theta
         last_time = values[0]
 
+def lorenz_plotter():
+    data_in = open('lorenz20.txt', 'r')
+    x_vals = []
+    y_vals = []
+    z_vals = []
+    t_vals = []
+    for line in data_in:
+        values = [float(n) for n in line.split()]
+        if values[0]==0.0 and len(x_vals)!=0:
+            print(len(x_vals))
+            break
+        t_vals.append(values[0])
+        x_vals.append(values[1])
+        y_vals.append(values[2])
+        z_vals.append(values[3])
+    fig, axes = pyplot.subplots(3, 2)
+    axes[0][0].plot(t_vals, x_vals)
+    axes[1][0].plot(t_vals, y_vals)
+    axes[2][0].plot(t_vals, z_vals)
+    data_in = open('lorenz20p01.txt', 'r')
+    x_vals = []
+    y_vals = []
+    z_vals = []
+    t_vals = []
+    for line in data_in:
+        values = [float(n) for n in line.split()]
+        if values[0]==0.0 and len(x_vals)!=0:
+            print(len(x_vals))
+            break
+        t_vals.append(values[0])
+        x_vals.append(values[1])
+        y_vals.append(values[2])
+        z_vals.append(values[3])
+    axes[0][1].plot(t_vals, x_vals)
+    axes[1][1].plot(t_vals, y_vals)
+    axes[2][1].plot(t_vals, z_vals)
+    pyplot.show()
 
 if __name__ =='__main__':
     # one_D_Plotter()
     # orbit_plotter()
     # step_size_plotter()
-    period_checker('encke.txt')
-    period_checker('biela.txt')
-    period_checker('wachmann.txt')
-    period_checker('halley.txt')
-    period_checker('grigg.txt')
-    period_checker('bopp.txt')
+    # period_checker('encke.txt')
+    # period_checker('biela.txt')
+    # period_checker('wachmann.txt')
+    # period_checker('halley.txt')
+    # period_checker('grigg.txt')
+    # period_checker('bopp.txt')
+    lorenz_plotter()

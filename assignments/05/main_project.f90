@@ -1,7 +1,7 @@
 program main_project
   use runge
   implicit none
-  real(kind=dp) :: initial(3), planetInit(5)
+  real(kind=dp) :: initial(3), planetInit(5), lorenzInit(4)
   real(kind=dp), allocatable :: path(:, :)
   real(kind=dp) :: pi, precision
   integer :: steps, status
@@ -11,7 +11,8 @@ program main_project
   ! call nonAdaptiveOrbit()
   ! call adaptiveOrbit()
   ! call adaptiveElliptic()
-  call cometInquiries()
+  ! call cometInquiries()
+  call lorenzInquiries()
   contains
   subroutine useNonAdaptive()
     initial = 0.0_dp
@@ -74,67 +75,22 @@ program main_project
     status = cometOrbitCalc(0.967_dp, 0.587_dp, 'halley.txt', 80.0_dp)
     status = cometOrbitCalc(0.969_dp, 0.923_dp, 'grigg.txt', 200.0_dp)
     status = cometOrbitCalc(0.995_dp, 0.913_dp, 'bopp.txt', 3000.0_dp)
-    ! e=0.847_dp
-    ! q=0.339_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 100.5_dp, precision)
-    ! status = writeOutAtTime(path, 'encke.txt')
-    ! deallocate(path)
-
-    ! e=0.756_dp
-    ! q=0.861_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 100.5_dp, precision)
-    ! status = writeOutAtTime(path, 'biela.txt')
-    ! deallocate(path)
-
-    ! e=0.132_dp
-    ! q=5.54_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 100.5_dp, precision)
-    ! status = writeOutAtTime(path, 'wachmann.txt')
-    ! deallocate(path)
-
-    ! e=0.967_dp
-    ! q=0.587_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 100.5_dp, precision)
-    ! status = writeOutAtTime(path, 'halley.txt')
-    ! deallocate(path)
-
-    ! e=0.969_dp
-    ! q=0.923_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 170.5_dp, precision)
-    ! status = writeOutAtTime(path, 'grigg.txt')
-    ! deallocate(path)
-
-    ! e=0.995_dp
-    ! q=0.913_dp
-    ! a = q/(1.0_dp-e)
-    ! planetInit(2)=a
-    ! planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    ! allocate(path(steps, 3))
-    ! path = adaptiveRK4(keplerian, planetInit, 3000.5_dp, precision)
-    ! status = writeOutAtTime(path, 'bopp.txt')
-    ! deallocate(path)
-
   end subroutine cometInquiries
+
+  subroutine lorenzInquiries()
+    precision = 10.0_dp**(-3.0_dp)
+    steps = 10000
+    allocate(path(steps, 4))
+    lorenzInit = [0.0_dp, 1.0_dp, 1.0_dp, 20.0_dp]
+    path = adaptiveRK4(lorenzAttractor, lorenzInit, 20.0_dp, precision)
+    status = writeOutAtTime(path, 'lorenz20.txt')
+    deallocate(path)
+    allocate(path(steps, 4))
+    lorenzInit = [0.0_dp, 1.0_dp, 1.0_dp, 20.01_dp]
+    path = adaptiveRK4(lorenzAttractor, lorenzInit, 20.0_dp, precision)
+    status = writeOutAtTime(path, 'lorenz20p01.txt')
+    deallocate(path)
+  end subroutine lorenzInquiries
 
   function cometOrbitCalc(e, q, name, time) result(status)
     real(kind=dp), intent(in) :: e, q, time
@@ -184,5 +140,19 @@ program main_project
     deltas(4) = state(2)*force
     deltas(5) = state(3)*force
   end function keplerian
+
+  function lorenzAttractor(state) result(deltas)
+    real(kind=dp), intent(in) :: state(:)
+    real(kind=dp), allocatable :: deltas(:)
+    real(kind=dp) :: sig, r, b
+    allocate(deltas(size(state)))
+    sig = 10.0_dp
+    b = 8.0_dp/3.0
+    r = 28.0_dp
+    deltas(1) = 1.0_dp
+    deltas(2) = sig*(state(3)-state(2))
+    deltas(3) = r*state(2)-state(3)-state(2)*state(4)
+    deltas(4) = state(2)*state(3) - b * state(4)
+  end function lorenzAttractor
 end program main_project
 

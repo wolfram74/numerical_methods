@@ -71,13 +71,13 @@ module runge
     real(kind=dp), intent(in) :: endTime, precision
     real(kind=dp), allocatable :: path(:, :), doubleStep(:), twoSingleStep(:), lastState(:)
     real(kind=dp) ::  stepSize, timeLeft, maxDisagreement
-    logical :: running = .true., lastLoop =.false.
+    ! logical :: running = .true., lastLoop =.false. ! bull shit operation, never do this
+    logical :: running, lastLoop
     integer :: totalSteps, stepNum, stateSize
     stateSize = size(state)
     stepSize = 2.0_dp**(-10)
     timeLeft = endTime-state(1)
     totalSteps = 10000
-
     if (timeLeft < 0.0_dp) then
       print*, 'in the future'
       allocate(path(1, stateSize))
@@ -90,6 +90,8 @@ module runge
     path = 0.0_dp
     path(1, :) = state
     stepNum = 2
+    running = .true.
+    lastLoop = .false.
     print*, 'starting loop', running
     do while( running )
       lastState = path(stepNum-1, :)

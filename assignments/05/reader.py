@@ -63,7 +63,8 @@ def orbit_plotter():
     # data_in = open('1524425818.txt', 'r')
     # data_in = open('1524425886.txt', 'r')
     # data_in = open('ellipse1E-7.txt', 'r')
-    data_in = open('encke.txt', 'r')
+    # data_in = open('encke.txt', 'r')
+    data_in = open('bopp.txt', 'r')
     x_vals = []
     y_vals = []
     for line in data_in:
@@ -74,6 +75,9 @@ def orbit_plotter():
         x_vals.append(values[1])
         y_vals.append(values[2])
     size = max(x_vals+y_vals)
+    other_size = abs(min(x_vals+y_vals))
+    print(size, other_size)
+    size = abs(max([size, other_size]))
     axes = pyplot.subplot(111)
     axes.plot(x_vals,y_vals)
     axes.set_ylim(-(size+1), size+1)
@@ -113,6 +117,7 @@ def period_checker(orbit_file):
         if neg and small:
             time = values[0]
             period = (last_time+ values[0])/2
+            print('for orbit in %s' % orbit_file)
             print('period is %f' % period)
             # print(values)
             # print(current_theta, last_theta)

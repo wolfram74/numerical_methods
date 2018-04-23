@@ -72,8 +72,8 @@ program main_project
     status = cometOrbitCalc(0.756_dp, 0.861_dp, 'biela.txt', 80.0_dp)
     status = cometOrbitCalc(0.132_dp, 5.540_dp, 'wachmann.txt', 80.0_dp)
     status = cometOrbitCalc(0.967_dp, 0.587_dp, 'halley.txt', 80.0_dp)
-    status = cometOrbitCalc(0.969_dp, 0.923_dp, 'grigg.txt', 80.0_dp)
-    status = cometOrbitCalc(0.995_dp, 0.913_dp, 'bopp.txt', 80.0_dp)
+    status = cometOrbitCalc(0.969_dp, 0.923_dp, 'grigg.txt', 200.0_dp)
+    status = cometOrbitCalc(0.995_dp, 0.913_dp, 'bopp.txt', 3000.0_dp)
     ! e=0.847_dp
     ! q=0.339_dp
     ! a = q/(1.0_dp-e)
@@ -144,12 +144,10 @@ program main_project
     a = q/(1.0_dp-e)
     planetInit(2)=a
     planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
-    print*, name
-    print*, planetInit
+    print*, name, a
     allocate(path(steps, 3))
-    path = adaptiveRK4(keplerian, planetInit, time, precision)
+    path = adaptiveRK4(keplerian, planetInit, time, precision/(a**3.0))
     status = writeOutAtTime(path, name)
-    print*, path(2, :)
     deallocate(path)
   end function cometOrbitCalc
 

@@ -138,15 +138,18 @@ program main_project
 
   function cometOrbitCalc(e, q, name, time) result(status)
     real(kind=dp), intent(in) :: e, q, time
+    character(len=*), intent(in) :: name
     real(kind=dp) :: a
     integer :: status
-    character(len=30), intent(in) :: name
     a = q/(1.0_dp-e)
     planetInit(2)=a
     planetInit(5)=2.0_dp*pi*a**(-0.5_dp)
+    print*, name
+    print*, planetInit
     allocate(path(steps, 3))
     path = adaptiveRK4(keplerian, planetInit, time, precision)
     status = writeOutAtTime(path, name)
+    print*, path(2, :)
     deallocate(path)
   end function cometOrbitCalc
 

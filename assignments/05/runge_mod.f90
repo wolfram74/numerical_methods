@@ -79,6 +79,7 @@ module runge
     totalSteps = 10000
 
     if (timeLeft < 0.0_dp) then
+      print*, 'in the future'
       allocate(path(1, stateSize))
       path(1, :) = state
       return
@@ -89,7 +90,7 @@ module runge
     path = 0.0_dp
     path(1, :) = state
     stepNum = 2
-
+    print*, 'starting loop', running
     do while( running )
       lastState = path(stepNum-1, :)
       if(lastLoop) then
